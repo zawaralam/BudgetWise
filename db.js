@@ -1,9 +1,9 @@
 var { MongoClient } = require("mongodb");
 var bcrypt = require("bcrypt");
-var url = 'mongodb+srv://dbUser:password@cluster0.pxcu4.mongodb.net/cps888?retryWrites=true&w=majority';
+var url = 'mongodb+srv://dbUser:cps888project@cluster0.pxcu4.mongodb.net/cps888?retryWrites=true&w=majority';
 
 if(process.env.TEST){
-    url = 'mongodb+srv://dbUser:password@cluster0.pxcu4.mongodb.net/cps888-test?retryWrites=true&w=majority';
+    url = 'mongodb+srv://dbUser:cps888project@cluster0.pxcu4.mongodb.net/cps888-test?retryWrites=true&w=majority';
 }
 
 var db = null;

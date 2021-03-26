@@ -9,7 +9,6 @@ var session = require("express-session");
 var MongoStore = require('connect-mongo')(session);
 var db = require("./db");
 
-
 var indexRouter = require('./routes/index');
 const { Db } = require('mongodb');
 
