@@ -1,0 +1,26 @@
+<div>
+    <h1>Hello {{username}}</h1>
+    <h2>Your TODO List:</h2>
+    <form>
+        <ul>
+            {{#each items}}
+            <li>
+                <div class="item-text">{{this}}</div>
+                <button type="submit" name="delete" value="{{this}}">
+                    Delete
+                </button>
+            </li>
+            {{/each}}
+        </ul>
+    </form>
+
+    <form method="post">
+        <input name="text" placeholder="Add new item">
+        <input type="submit" value="Add">
+    </form>
+
+    <br>
+    <form method="post">
+        <input type="submit" value="Log out">
+    </form>
+</div>
