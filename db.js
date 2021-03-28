@@ -61,14 +61,14 @@ async function addSpendingCategory(username, SpendingCategory){
         }
     )
 }
-async function addTransactionCost(username,Cost){
+async function addTransactionCost(username,cost){
     var conn = await connect();
 
     await conn.collection('users').updateOne(
         {username},
         {
             $push: {
-                transactions: Cost,
+                transactions: cost,
             }
         }
     )

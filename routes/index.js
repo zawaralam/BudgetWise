@@ -35,24 +35,20 @@ router.post('/', async function(req, res){
  }
  router.use(ensureLoggedIn);
 
- router.get('/reportview', async function(req, res){
+ router.get('/transaction', async function(req, res){
    var { username } = req.session;
    res.render('index', { 
      username,
-     items: await db.getTransaction(username),
+     transactions: await db.getTransaction(username),
    });
   });
 
- router.post('/reportview', async function(req, res){
-   var { username } = req.session;
-
-   if(req.body.delete){
-     await db.deleteListItem(username, req.body.delete);
-   }else{
-     await db.addSpendingCategory(username, req.body.text);
-     await db.addTransactionCost(username, req.body.text);
-   }
-    res.redirect('/');
+ router.post('/transaction', async function(req, res){
+   var { username,addtransaction, SpendingCategory,cost  } = req.session;
+   if(addtransaction){
+     await db.addSpendingCategory(username, SpendingCategory,body.text);
+     await db.addTransactionCost(username, cost, req.body.text);}
+     res.redirect('/index');
 });
 
 router.post('/logout', async function(req, res){
