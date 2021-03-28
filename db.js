@@ -49,26 +49,13 @@ async function login(username, password){
     console.log("Login successful");
 }
 
-async function addSpendingCategory(username, SpendingCategory){
+async function addTransaction(username,cost, SpendingCategory){
     var conn = await connect();
-
-    await conn.collection('users').updateOne(
-        {username},
+    await conn.collection('users').updateMany(
+        {username:username},
         {
-            $push: {
-                transactions: SpendingCategory,
-            }
-        }
-    )
-}
-async function addTransactionCost(username,cost){
-    var conn = await connect();
-
-    await conn.collection('users').updateOne(
-        {username},
-        {
-            $push: {
-                transactions: cost,
+            $set: {
+                transactions: cost,SpendingCategory
             }
         }
     )
@@ -76,21 +63,20 @@ async function addTransactionCost(username,cost){
 async function getTransaction(username){
     var conn = await connect();
     var user = await conn.collection('users').findOne({username});
-
-    return user.transactions;
+    return transactions;
 }
 
-async function deleteTransactionItem(username, Cost){
-    var conn = await connect();
-    await conn.collection('users').updateOne(
-        {username},
-        {
-            $pull: {
-                transactions: Cost,
-            }
-        }
-    )
-}
+// async function deleteTransactionItem(username, Cost){
+//     var conn = await connect();
+//     await conn.collection('users').updateOne(
+//         {username},
+//         {
+//             $pull: {
+//                 transactions: cost,
+//             }
+//         }
+//     )
+// }
 
 async function close(){
     await client.close();
@@ -100,10 +86,8 @@ module.exports = {
     url,
     login,
     register,
-    deleteTransactionItem,
     getTransaction,
-    addTransactionCost,
-    addSpendingCategory,
+    addTransaction,
     close,
 };
 

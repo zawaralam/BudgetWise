@@ -3,7 +3,7 @@
 <h2>Here are your current transactions:</h2>
 <form>
     <ul>
-        {{#each transaction}}
+        {{#each transactions}}
         <li>
             <div class="item-text">{{this}}</div>
         </li>
@@ -12,8 +12,18 @@
 </form>
 
 <h1>Add Transactions</h1>
-<form action="/transaction" method="post">
-    <input name="SpendingCategory" placeholder="Category of Spending"><br>
+<form action="/addtransaction" method="post">
+    <p>
+        <label>Select Spending Category:</label>
+        <select name="SpendingCategory">    
+            <option value="Travel">Travel</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Groceries" selected="selected">Groceries</option> 
+            <option value="Shopping" selected="selected">Shopping</option>
+            <option value="Entertainment" selected="selected">Entertainment</option>
+            <option value="Other" selected="selected">Other</option>        
+        </select>
+    </p>
     <input name="cost" placeholder="Amount Spent"><br>
     <input name="addtransaction" value="Add" type="submit">
 </form>
@@ -29,7 +39,7 @@
   </select>
 </p>
 
-<form method="post">
+<form action="modify" method="post">
     <input name="transaction" placeholder="Select Spending"><br>
     <input name="SpendingCategory" placeholder="Change Spending Category"><br>
     <input name="cost" placeholder="Amount Spent"><br>
@@ -37,7 +47,7 @@
 </form>
 
 <br>
-<form method="post">
-    <input type="submit" value="Log out">
+<form action="/logout" method="post">
+    <input name="logout" type="submit" value="Log out">
 </form>
 
