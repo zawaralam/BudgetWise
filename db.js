@@ -23,16 +23,24 @@ async function connect(){
 async function register(username, password){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
-    var role = "";
+    var role = "Client";
+
+    if(existingUser != null && username.toLowerCase() === "admin") {
+        throw new Error('Cannot create a new Admin user');
+    }
 
     if(existingUser != null){
         throw new Error('User already exists');
+    } 
+
+    if(username.toLowerCase() === "admin") {
+        role = "Admin";
     }
 
     var SALT_ROUNDS = 10;
     var passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await conn.collection('users').insertOne({username, passwordHash});
+    await conn.collection('users').insertOne({username, passwordHash, role});
 }
 
 async function login(username, password){

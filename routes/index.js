@@ -23,7 +23,7 @@ router.post('/login', async function(req, res){
 function ensureLoggedIn(req, res, next){
   if(!req.session.username){
     res.redirect('/login');
-  }else{
+  } else{
     next();
   }
 }
