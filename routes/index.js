@@ -34,7 +34,6 @@ router.get('/', async function(req, res){
   var { username } = req.session;
   res.render('index', { 
     username,
-    items: await db.getListItem(username),
   });
 });
 

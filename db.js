@@ -8,6 +8,7 @@ if(process.env.TEST){
 
 var db = null;
 var client = null;
+
 async function connect(){
     if(db == null){
         var options = {
@@ -22,6 +23,7 @@ async function connect(){
 async function register(username, password){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
+    var role = "";
 
     if(existingUser != null){
         throw new Error('User already exists');
