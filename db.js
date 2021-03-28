@@ -102,6 +102,26 @@ async function deleteTransactionItem(username, Cost){
     )
 }
 
+// ADMIN STUFF
+async function registerFM(fullname,email,companyName,contactNum) {
+    var conn = await connect();
+    await conn.collection('financialManagers').insertOne({
+        fullname: fullname,
+        email: email,
+        companyName: companyName,
+        contactNum: contactNum
+    });
+}
+
+async function registerWM(companyName,email,contactNum) {
+    var conn = await connect();
+    await conn.collection('WealthManagementCompanies').insertOne({
+        companyName: companyName,
+        email: email,
+        contactNum: contactNum
+    });
+}
+
 async function close(){
     await client.close();
 }
@@ -114,6 +134,8 @@ module.exports = {
     getTransaction,
     addTransactionCost,
     addSpendingCategory,
+    registerFM,
+    registerWM,
     close,
 };
 

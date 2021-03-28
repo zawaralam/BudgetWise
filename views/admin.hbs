@@ -1,0 +1,42 @@
+<h1>Admin Portal</h1>
+
+<div class="register-company" id="register-FM">
+    <form action="/register-FM" method="post">
+    <p>Fill out this form to register a financial manager.</p>
+        <div class="form-group">
+            <label>Fullname</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Fullname" autocomplete="off">
+            <label>Email</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Email" autocomplete="off">
+            <label>Company Name</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Company Name" autocomplete="off">
+            <label>Contact Number</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Phone Number" autocomplete="off">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" name="button">Register Financial Manager</button>
+    </form>
+</div>
+<br>
+<div class="register-company" id="register-WM">
+    <form action="/register-WM" method="post">
+    <p>Fill out this form to register a wealth management company.</p>
+        <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Company Name" autocomplete="off">
+            <label>Email</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Email" autocomplete="off">
+            <label>Contact Number</label>
+            <input type="text" class="form-control" name='FMname' placeholder="Enter Phone Number" autocomplete="off">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" name="button">Register Wealth Management Company</button>
+    </form>
+</div>
+
+<div class="logout-btn">
+    <br>
+    <form action="/logout" method="post">
+        <button type="submit" class="btn btn-primary" value="Log out">Logout</button>
+    </form>
+</div>
