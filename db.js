@@ -103,13 +103,14 @@ async function deleteTransactionItem(username, Cost){
 }
 
 // ADMIN STUFF
-async function registerFM(fullname,email,companyName,contactNum) {
+async function registerFM(fullname,email,companyName,contactNum, availableTime) {
     var conn = await connect();
     await conn.collection('financialManagers').insertOne({
         fullname: fullname,
         email: email,
         companyName: companyName,
-        contactNum: contactNum
+        contactNum: contactNum,
+        availableTime: availableTime,
     });
 }
 

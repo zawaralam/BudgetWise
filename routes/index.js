@@ -8,10 +8,9 @@ router.get('/login', async function(req, res){
 
 router.post('/login', async function(req, res){
   var { username, password, register} = req.body;
-
   if(register){
-    res.render('register', { title: 'Register'})}
-  else{
+    res.redirect('/register');
+  } else {
     await db.login(username, password);
   }
   // if user was found and logged in, then redirect them to the dashboard
@@ -27,6 +26,18 @@ router.get('/home', async function(req,res){
   res.render('index', { title: 'Transactions'});
 });
 
+router.get('/register', async function(req,res){
+  res.render('register');
+});
+
+router.post('/register', async function(req, res){
+  var { username, password, firstname, lastname, register} = req.body;
+  if(register)
+    console.log('it worked');
+  await db.register(username, password, firstname, lastname);
+  res.redirect('/');
+});
+
 function ensureLoggedIn(req, res, next){
   // if a user isn't logged in, then automatically redirect to login page
   if(!req.session.username){
@@ -35,14 +46,6 @@ function ensureLoggedIn(req, res, next){
     next();
   }
 }
-
-router.post('/register', async function(req, res){
-  var { username, password,firstname, lastname, register} = req.body;
-  if(register)
-    console.log('it worked');
-  await db.register(username, password,firstname,lastname);
-  res.redirect('/');
-});
 
 function ensureLoggedIn(req, res, next){
   if(!req.session.username){
@@ -83,8 +86,9 @@ router.post('/register-FM', async function(req,res){
   var email = req.body.FMname[1];
   var companyName = req.body.FMname[2];
   var contactNum = req.body.FMname[3];
+  var availableTime = ['8:00-8:55','9:00-9:55','10:00-10:55','11:00-11:55','12:00-12:55','13:00-13:55','14:00-14:55','15:00-15:55'];
   // register the financial manager
-  await db.registerFM(fullname, email, companyName, contactNum);
+  await db.registerFM(fullname, email, companyName, contactNum, availableTime);
   res.redirect('/admin');
 });
 
