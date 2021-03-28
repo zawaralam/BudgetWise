@@ -7,16 +7,22 @@
     "test": "cross-env TEST=1 jest"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
+    "bootstrap": "^4.6.0",
     "connect-mongo": "^3.2.0",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-async-errors": "^3.1.1",
     "express-session": "^1.17.1",
     "hbs": "~4.0.4",
+<<<<<<< HEAD
     "http-errors": "^1.6.3",
     "mongodb": "^3.6.4",
+=======
+    "http-errors": "~1.6.3",
+    "mongodb": "^3.6.5",
+>>>>>>> origin/main
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7"
   }

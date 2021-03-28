@@ -20,7 +20,7 @@ async function connect(){
     return db;
 }
 
-async function register(username, password){
+async function register(username, password, firstname, lastname){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
@@ -40,7 +40,7 @@ async function register(username, password){
     var SALT_ROUNDS = 10;
     var passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await conn.collection('users').insertOne({username, passwordHash, role});
+    await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
 }
 
 async function login(username, password){
@@ -59,33 +59,44 @@ async function login(username, password){
     console.log("Login successful");
 }
 
-async function addListItem(username, item){
+async function addSpendingCategory(username, SpendingCategory){
     var conn = await connect();
 
     await conn.collection('users').updateOne(
         {username},
         {
             $push: {
-                list: item,
+                transactions: SpendingCategory,
             }
         }
     )
 }
+async function addTransactionCost(username,Cost){
+    var conn = await connect();
 
-async function getListItem(username){
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push: {
+                transactions: Cost,
+            }
+        }
+    )
+}
+async function getTransaction(username){
     var conn = await connect();
     var user = await conn.collection('users').findOne({username});
 
-    return user.list;
+    return user.transactions;
 }
 
-async function deleteListItem(username, item){
+async function deleteTransactionItem(username, Cost){
     var conn = await connect();
     await conn.collection('users').updateOne(
         {username},
         {
             $pull: {
-                list: item,
+                transactions: Cost,
             }
         }
     )
@@ -99,9 +110,10 @@ module.exports = {
     url,
     login,
     register,
-    addListItem,
-    deleteListItem,
-    getListItem,
+    deleteTransactionItem,
+    getTransaction,
+    addTransactionCost,
+    addSpendingCategory,
     close,
 };
 
