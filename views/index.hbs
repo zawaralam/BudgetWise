@@ -1,12 +1,40 @@
-<<<<<<< HEAD
-<div>
-    <h1>Hello {{username}}</h1>
+<h1>Transactions</h1>
+<h1>Hello {{username}}</h1>
+<h2>Here are your current transactions:</h2>
+<form>
+    <ul>
+        {{#each transaction}}
+        <li>
+            <div class="item-text">{{this}}</div>
+        </li>
+        {{/each}}
+    </ul>
+</form>
 
-    <br>
-    <form action="/logout" method="post">
-        <input type="submit" value="Log out">
-    </form>
-</div>
-=======
+<h1>Add Transactions</h1>
+<form action="/transaction" method="post">
+    <input name="SpendingCategory" placeholder="Category of Spending"><br>
+    <input name="cost" placeholder="Amount Spent">
+</form>
+<br>
+<h1>Modify Transactions</h1>
+<h2>Select Spending</h2>
+<p>
+  <label>Mode:</label>
+  <select name="config[mode]">    
+    <option value="option1">option1</option>
+    <option value="option2">option2</option>
+    <option value="option3" selected="selected">option3</option>    
+  </select>
+</p>
 
->>>>>>> origin/main
+<form method="post">
+    <input name="transaction" placeholder="Select Spending"><br>
+    <input name="SpendingCategory" placeholder="Change Spending Category"><br>
+    <input name="cost" placeholder="Amount Spent"><br>
+</form>
+
+<br>
+<form method="post">
+    <input type="submit" value="Log out">
+</form>
