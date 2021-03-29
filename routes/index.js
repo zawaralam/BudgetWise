@@ -58,7 +58,7 @@ router.post('/addtransaction', async function(req, res){
   var {username} = req.session;
   console.log(username)
   console.log(req.body);
-  await db.addTransaction(username, cost, SpendingCategory);
+  await db.addTransaction(username, SpendingCategory, cost);
   res.redirect('/home');
 });
 

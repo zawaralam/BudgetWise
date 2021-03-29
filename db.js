@@ -66,7 +66,7 @@ async function addTransaction(username, SpendingCategory,cost){
         {username:username},
         {
             $set: {
-                transactions: SpendingCategory,cost
+                transactions:cost, SpendingCategory,
             }
         }
     )
