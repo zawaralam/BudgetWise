@@ -20,7 +20,7 @@ async function connect(){
     return db;
 }
 
-async function register(username, password, firstname, lastname){
+async function register(username, password, firstname, lastname, income, expenses){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
@@ -40,7 +40,12 @@ async function register(username, password, firstname, lastname){
     var SALT_ROUNDS = 10;
     var passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
+    if(role === "Admin"){
+        await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
+    }else{
+        await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role, income, expenses});
+    }
+    
 }
 
 async function login(username, password){
@@ -111,6 +116,38 @@ async function registerWM(companyName,email,contactNum) {
     });
 }
 
+async function addIncome(username, type, amount, date){
+    var conn = await connect();
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push:{
+                income:{
+                    type: type,
+                    amount: amount,
+                    date: date,
+                }
+            }
+        }
+    );
+}
+
+async function addExpense(username, type, amount, date){
+    var conn = await connect();
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push:{
+                expenses:{
+                    type: type,
+                    amount: amount,
+                    date: date,
+                }
+            }
+        }
+    );
+}
+
 async function close(){
     await client.close();
 }
@@ -124,6 +161,8 @@ module.exports = {
     addTransaction,
     registerFM,
     registerWM,
+    addIncome,
+    addExpense,
     close,
 };
 

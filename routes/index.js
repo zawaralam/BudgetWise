@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../db");
+const CSVtoJSON = require("csvtojson");
+const fs = require("fs");
 
 router.get('/login', async function(req, res){
   res.render('login', { title: 'Login'})
@@ -36,9 +38,11 @@ router.get('/register', async function(req,res){
 
 router.post('/register', async function(req, res){
   var { username, password, firstname, lastname, register} = req.body;
+  var income = [];
+  var expenses = [];
   if(register)
     console.log('it worked');
-  await db.register(username, password, firstname, lastname);
+  await db.register(username, password, firstname, lastname, income, expenses);
   res.redirect('/');
 });
 
@@ -85,6 +89,22 @@ router.post('/register-WM', async function(req,res){
   // register the financial manager
   await db.registerWM(companyName, email, contactNum);
   res.redirect('/admin');
+});
+
+// IMPORT DATA FROM CSV
+router.post('/import', async function(req,res){
+  var {username} = req.session;
+  CSVtoJSON().fromFile(req.body.myFile)
+  .then(jsonObj =>{
+    for(var key in jsonObj){
+      if(jsonObj[key].hasOwnProperty('Income')){
+        db.addIncome(username, jsonObj[key].Income, jsonObj[key].Amount, jsonObj[key].Date);
+      }else if(jsonObj[key].hasOwnProperty('Expense')){
+        db.addExpense(username, jsonObj[key].Expense, jsonObj[key].Amount, jsonObj[key].Date);
+      }
+    }
+  });
+  res.redirect('/home');
 });
 
 router.post('/logout', async function(req, res){

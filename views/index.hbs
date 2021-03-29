@@ -27,6 +27,11 @@
     <input name="cost" placeholder="Amount Spent"><br>
     <input name="addtransaction" value="Add" type="submit">
 </form>
+<form action="/import" method="post">
+    <label for="myFile">Choose a file (.csv):</label>
+    <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
+    <input type="submit">
+</form>
 <br>
 <h1>Modify Transactions</h1>
 <h2>Select Spending</h2>
