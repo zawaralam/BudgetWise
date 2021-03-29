@@ -23,7 +23,11 @@ router.post('/login', async function(req, res){
 });
 
 router.get('/home', async function(req,res){
-  res.render('index', { title: 'Transactions'});
+  var {username} = req.session;
+  res.render('index', { 
+  username,
+  //transactions : await db.getTransaction(username),
+  });
 });
 
 router.get('/register', async function(req,res){
@@ -47,33 +51,15 @@ function ensureLoggedIn(req, res, next){
   }
 }
 
-function ensureLoggedIn(req, res, next){
-  if(!req.session.username){
-    res.redirect('/login');
-  }else{
-    next();
-  }
-}
 router.use(ensureLoggedIn);
 
-router.get('/reportview', async function(req, res){
-    var { username } = req.session;
-    res.render('index', { 
-      username,
-      items: await db.getTransaction(username),
-  });
-});
-
-router.post('/reportview', async function(req, res){
-   var { username } = req.session;
-
-   if(req.body.delete){
-     await db.deleteListItem(username, req.body.delete);
-   }else{
-     await db.addSpendingCategory(username, req.body.text);
-     await db.addTransactionCost(username, req.body.text);
-   }
-    res.redirect('/');
+router.post('/addtransaction', async function(req, res){
+  var {SpendingCategory,cost} = req.body;
+  var {username} = req.session;
+  console.log(username)
+  console.log(req.body);
+  await db.addTransaction(username, cost, SpendingCategory);
+  res.redirect('/home');
 });
 
 // ADMIN STUFF

@@ -59,44 +59,32 @@ async function login(username, password){
     console.log("Login successful");
 }
 
-async function addSpendingCategory(username, SpendingCategory){
+async function addTransaction(username, SpendingCategory,cost){
     var conn = await connect();
 
     await conn.collection('users').updateOne(
-        {username},
+        {username:username},
         {
-            $push: {
-                transactions: SpendingCategory,
+            $set: {
+                transactions: SpendingCategory,cost
             }
         }
     )
 }
-async function addTransactionCost(username,Cost){
-    var conn = await connect();
 
-    await conn.collection('users').updateOne(
-        {username},
-        {
-            $push: {
-                transactions: Cost,
-            }
-        }
-    )
-}
 async function getTransaction(username){
     var conn = await connect();
     var user = await conn.collection('users').findOne({username});
-
-    return user.transactions;
+    return transactions;
 }
 
-async function deleteTransactionItem(username, Cost){
+async function deleteTransactionItem(username, cost){
     var conn = await connect();
     await conn.collection('users').updateOne(
         {username},
         {
             $pull: {
-                transactions: Cost,
+                transactions: cost,
             }
         }
     )
@@ -133,8 +121,7 @@ module.exports = {
     register,
     deleteTransactionItem,
     getTransaction,
-    addTransactionCost,
-    addSpendingCategory,
+    addTransaction,
     registerFM,
     registerWM,
     close,
