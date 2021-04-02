@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db");
 const CSVtoJSON = require("csvtojson");
-const fs = require("fs");
 
 router.get('/login', async function(req, res){
   res.render('login', { title: 'Login'})

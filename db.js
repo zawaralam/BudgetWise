@@ -20,7 +20,7 @@ async function connect(){
     return db;
 }
 
-async function register(username, password, firstname, lastname, income, expenses){
+async function register(username, password, firstname, lastname){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
@@ -40,12 +40,7 @@ async function register(username, password, firstname, lastname, income, expense
     var SALT_ROUNDS = 10;
     var passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-    if(role === "Admin"){
-        await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
-    }else{
-        await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role, income, expenses});
-    }
-    
+    await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
 }
 
 async function login(username, password){
