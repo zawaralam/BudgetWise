@@ -58,11 +58,20 @@ function ensureLoggedIn(req, res, next){
 router.use(ensureLoggedIn);
 
 router.post('/addtransaction', async function(req, res){
-  var {SpendingCategory,cost} = req.body;
+  var {type,amount, date} = req.body;
   var {username} = req.session;
   console.log(username)
   console.log(req.body);
-  await db.addTransaction(username, cost, SpendingCategory);
+  await db.addExpense(username,type, amount, date);
+  res.redirect('/home');
+});
+
+router.post('/addincome', async function(req, res){
+  var {IncomeCategory,income, date} = req.body;
+  var {username} = req.session;
+  console.log(username)
+  console.log(req.body);
+  await db.addIncome(username,IncomeCategory, income, date);
   res.redirect('/home');
 });
 

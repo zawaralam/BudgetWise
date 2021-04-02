@@ -64,18 +64,6 @@ async function login(username, password){
     console.log("Login successful");
 }
 
-async function addTransaction(username, SpendingCategory,cost){
-    var conn = await connect();
-
-    await conn.collection('users').updateOne(
-        {username:username},
-        {
-            $set: {
-                transactions: SpendingCategory,cost
-            }
-        }
-    )
-}
 
 async function getTransaction(username){
     var conn = await connect();
@@ -118,6 +106,7 @@ async function registerWM(companyName,email,contactNum) {
 
 async function addIncome(username, type, amount, date){
     var conn = await connect();
+    console.log(type, amount,date);
     await conn.collection('users').updateOne(
         {username},
         {
@@ -158,7 +147,6 @@ module.exports = {
     register,
     deleteTransactionItem,
     getTransaction,
-    addTransaction,
     registerFM,
     registerWM,
     addIncome,

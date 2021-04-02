@@ -1,58 +1,87 @@
-<h1>Transactions</h1>
-<h1>Hello {{username}}</h1>
-<h2>Here are your current transactions:</h2>
-<form>
-    <ul>
-        {{#each transactions}}
-        <li>
-            <div class="item-text">{{this}}</div>
-        </li>
-        {{/each}}
-    </ul>
-</form>
+<div class = "container">
+    <h1>Hello {{username}}, </h1>
+    <h2>Here are your current transactions:</h2>
+    <form>
+        <ul>
+            {{#each transactions}}
+            <li>
+                <div class="item-text">{{this}}</div>
+            </li>
+            {{/each}}
+        </ul>
+    </form>
 
-<h1>Add Transactions</h1>
-<form action="/addtransaction" method="post">
+    <div class ="row">
+        <div class = "col">
+            <h1>Add Transactions</h1>
+            <form action="/addtransaction" method="post">
+                <p>
+                    <label>Select Spending Category:</label>
+                    <select name="SpendingCategory">    
+                        <option value="Travel">Travel</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Groceries" selected="selected">Groceries</option> 
+                        <option value="Shopping" selected="selected">Shopping</option>
+                        <option value="Entertainment" selected="selected">Entertainment</option>
+                        <option value="Other" selected="selected">Other</option>        
+                    </select>
+                </p>
+                <input  type ="number" name="cost" placeholder="Amount Spent">
+                <input type ="date" name="date" placeholder="Transaction Date"><br>
+                <input name="addtransaction" value="Add" type="submit">
+            </form>
+        </div>
+        <br>
+        <div class = "col">
+            <h1>Add Income</h1>
+            <form action="/addincome" method="post">
+                <p>
+                    <label>Select Income Category:</label>
+                    <select name="IncomeCategory">    
+                        <option value="Salary">Salary</option>
+                        <option value="Part-time Income">Part-time Income</option>
+                        <option value="Other" selected="selected">Other</option>        
+                    </select>
+                </p>
+                <input  type ="number" name="income" placeholder="Amount Spent"><br>
+                <input type ="date" name="date" placeholder="Transaction Date"><br>
+                <input name="addIncome" value="Add" type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<div class ="container">
+    <h1>Add CSV File</h1>
+    <form action="/import" method="post">
+        <label for="myFile">Choose a file (.csv):</label>
+        <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
+        <input type="submit">
+    </form>
+</div>
+<br>
+<div class ="container">
+    <h1>Modify Transactions</h1>
+    <h2>Select Spending</h2>
     <p>
-        <label>Select Spending Category:</label>
-        <select name="SpendingCategory">    
-            <option value="Travel">Travel</option>
-            <option value="Utilities">Utilities</option>
-            <option value="Groceries" selected="selected">Groceries</option> 
-            <option value="Shopping" selected="selected">Shopping</option>
-            <option value="Entertainment" selected="selected">Entertainment</option>
-            <option value="Other" selected="selected">Other</option>        
-        </select>
+    <label>Mode:</label>
+    <select name="Select Transaction">    
+        <option value="option1">option1</option>
+        <option value="option2">option2</option>
+        <option value="option3" selected="selected">option3</option>    
+    </select>
     </p>
-    <input name="cost" placeholder="Amount Spent"><br>
-    <input name="addtransaction" value="Add" type="submit">
-</form>
-<form action="/import" method="post">
-    <label for="myFile">Choose a file (.csv):</label>
-    <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
-    <input type="submit">
-</form>
-<br>
-<h1>Modify Transactions</h1>
-<h2>Select Spending</h2>
-<p>
-  <label>Mode:</label>
-  <select name="config[mode]">    
-    <option value="option1">option1</option>
-    <option value="option2">option2</option>
-    <option value="option3" selected="selected">option3</option>    
-  </select>
-</p>
 
-<form action="modify" method="post">
-    <input name="transaction" placeholder="Select Spending"><br>
-    <input name="SpendingCategory" placeholder="Change Spending Category"><br>
-    <input name="cost" placeholder="Amount Spent"><br>
-    <input name="modifytransaction" value="Modify" type="submit">
-</form>
+    <form action="modify" method="post">
+        <input name="SpendingCategory" placeholder="Change Spending Category"><br>
+        <input name="cost" placeholder="Amount Spent"><br>
+        <input name="modifytransaction" value="Modify" type="submit">
+    </form>
+</div>
 
 <br>
-<form action="/logout" method="post">
-    <input name="logout" type="submit" value="Log out">
-</form>
-
+<div class ="container">
+    <form action="/logout" method="post">
+        <input name="logout" type="submit" value="Log out">
+    </form>
+</div>
