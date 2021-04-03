@@ -7,6 +7,10 @@ router.get('/login', async function(req, res){
   res.render('login', { title: 'Login'})
 });
 
+router.get('/transaction', async function(req, res){
+  res.render('transaction', { title: 'Transactions'})
+});
+
 router.post('/login', async function(req, res){
   var { username, password, register} = req.body;
   if(register){
@@ -25,7 +29,7 @@ router.post('/login', async function(req, res){
 
 router.get('/home', async function(req,res){
   var {username} = req.session;
-  res.render('index', { 
+  res.render('home', { 
   username,
   //transactions : await db.getTransaction(username),
   });
@@ -62,7 +66,7 @@ router.post('/addtransaction', async function(req, res){
   console.log(username)
   console.log(req.body);
   await db.addExpense(username,type, amount, date);
-  res.redirect('/home');
+  res.redirect('/transaction');
 });
 
 router.post('/addincome', async function(req, res){
@@ -71,7 +75,7 @@ router.post('/addincome', async function(req, res){
   console.log(username)
   console.log(req.body);
   await db.addIncome(username,IncomeCategory, income, date);
-  res.redirect('/home');
+  res.redirect('/transaction');
 });
 
 // ADMIN STUFF
@@ -112,7 +116,7 @@ router.post('/import', async function(req,res){
       }
     }
   });
-  res.redirect('/home');
+  res.redirect('/transaction');
 });
 
 router.post('/logout', async function(req, res){
