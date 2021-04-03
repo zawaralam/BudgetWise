@@ -40,13 +40,19 @@ router.get('/register', async function(req,res){
 });
 
 router.post('/register', async function(req, res){
-  var { username, password, firstname, lastname, register} = req.body;
+  var { username, password, confirm, email, firstname, lastname, register} = req.body;
   var income = [];
   var expenses = [];
-  if(register)
-    console.log('it worked');
-  await db.register(username, password, firstname, lastname, income, expenses);
-  res.redirect('/');
+  if(register){
+    if(password === confirm){
+      await db.register(username, password, email, firstname, lastname, income, expenses);
+      res.redirect('/');
+    }else{
+      console.log("Passwords do not match");
+      res.redirect('/register');
+    }
+  }
+  res.redirect('/register');
 });
 
 function ensureLoggedIn(req, res, next){
@@ -76,6 +82,20 @@ router.post('/addincome', async function(req, res){
   console.log(req.body);
   await db.addIncome(username,IncomeCategory, income, date);
   res.redirect('/transaction');
+});
+
+router.post('/getIncome', async function(req, res){
+  var {username} = req.session;
+  //console.log(req.body);
+  await db.getIncome(username);
+  res.redirect('/home');
+});
+
+router.post('/getExpense', async function(req, res){
+  var {username} = req.session;
+  //console.log(req.body);
+  await db.getIncome(username);
+  res.redirect('/home');
 });
 
 // ADMIN STUFF

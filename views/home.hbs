@@ -1,4 +1,93 @@
 <div class="container">
     <h1>Welcome to your Dashboard</h1>
-    
+
+    <form action="/transaction" method="get">
+        <input type="submit" value="Add data"/>
+    </form>
+
+    <div class="row">
+        <div class ="container">
+            <form action="/getIncome" method="post">
+                <input name="getIncome" type="submit" value="Get Income">
+            </form>
+        </div>
+        <div class ="container">
+            <form action="/getExpense" method="post">
+                <input name="getExpense" type="submit" value="Get Expenses">
+            </form>
+        </div>
+        
+        <div class="col">
+            <h2>Income</h2>
+            <div class="tab">
+                <button class="tablinks" onclick="openTabIncome(event, 'Pie')">Pie</button>
+                <button class="tablinks" onclick="openTabIncome(event, 'Treemap')">Treemap</button>
+                </div>
+
+                <div id="Pie" class="tabcontent">
+                <h3>Pie</h3>
+                <p>Income as a Pie chart</p>
+                </div>
+
+                <div id="Treemap" class="tabcontent">
+                <h3>Treemap</h3>
+                <p>Income as a Treemap</p>
+            </div>
+        </div>
+        <div class="col">
+            <h2>Expenses</h2>
+            <div class="tab">
+                <button class="tablinks" onclick="openTabExpense(event, 'PieExpense')">Pie</button>
+                <button class="tablinks" onclick="openTabExpense(event, 'TreemapExpense')">Treemap</button>
+                </div>
+
+                <div id="PieExpense" class="tabcontent2">
+                <h3>Pie</h3>
+                <p>Expenses as a Pie chart</p>
+                </div>
+
+                <div id="TreemapExpense" class="tabcontent2">
+                <h3>Treemap</h3>
+                <p>Expenses as a Treemap</p>
+            </div>
+        </div>
+    </div>
 </div>
+
+<br>
+<div class ="container">
+    <form action="/logout" method="post">
+        <input name="logout" type="submit" value="Log out">
+    </form>
+</div>
+
+<script>
+function openTabIncome(evt, chartType) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(chartType).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+<script>
+function openTabExpense(evt, chartType) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent2");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(chartType).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>

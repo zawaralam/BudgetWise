@@ -20,7 +20,7 @@ async function connect(){
     return db;
 }
 
-async function register(username, password, firstname, lastname){
+async function register(username, password, email, firstname, lastname, income, expenses){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
@@ -40,7 +40,12 @@ async function register(username, password, firstname, lastname){
     var SALT_ROUNDS = 10;
     var passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await conn.collection('users').insertOne({username, passwordHash,firstname, lastname, role});
+    // If user is client, add income/expenses fields
+    if(role === "Admin"){
+        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role});
+    }else{
+        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role, income, expenses});
+    }
 }
 
 async function login(username, password){
@@ -60,10 +65,18 @@ async function login(username, password){
 }
 
 
-async function getTransaction(username){
+async function getIncome(username){
     var conn = await connect();
     var user = await conn.collection('users').findOne({username});
-    return transactions;
+    var income = user.income;
+    return income;
+}
+
+async function getExpense(username){
+    var conn = await connect();
+    var user = await conn.collection('users').findOne({username});
+    var expenses = user.expenses;
+    return expenses;
 }
 
 async function deleteTransactionItem(username, cost){
@@ -141,7 +154,8 @@ module.exports = {
     login,
     register,
     deleteTransactionItem,
-    getTransaction,
+    getIncome,
+    getExpense,
     registerFM,
     registerWM,
     addIncome,
