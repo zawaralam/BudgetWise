@@ -1,0 +1,18 @@
+<div>{{> header}}</div>
+
+<div>
+    <h1>Financial Managers</h1>
+</div>
+
+<div class="financial-list">
+    {{#each financialManagers}}
+        <div class="financial-info">
+            <p>{{this.fullname}}</p>
+            <p>{{this.email}}</p>
+            <p>{{this.companyName}}</p>
+            <p>{{this.contactNum}}</p>
+            <p>{{this.availableTime}}</p>
+        </div>
+        <br>
+    {{/each}}
+</div>

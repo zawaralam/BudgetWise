@@ -8,7 +8,22 @@ body{
   align-items: center;
 }
 
-input{
+.navbar-list {
+  list-style-type: none;
+  float: right;
+}
+
+.nav-item {
+  float: left;
+}
+
+.nav-btn {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* input{
   border: 0;
   outline: 0;
 
@@ -17,12 +32,13 @@ input{
 
   width: 300px;
   box-sizing: border-box;
-}
+} */
 
+/*
 input[type = "submit"]{
   background-color: black;
   color: white;
-  width: 148px;
+  width: 10rem;
   cursor: pointer;
   margin-top: 30px;
 }
@@ -50,7 +66,6 @@ li{
   background-color: white;
   margin-bottom: 5px;
   border: 1px solid #eee;
-
   transition: all 100ms;
 }
 
@@ -62,18 +77,18 @@ li button{
   margin: 0;
   width: 100px;
   cursor: pointer;
-}
+} */
 
-li:hover{
+/* li:hover{
   transform: scale(1.05);
 }
 
 .item-text{
   width: 100%;
   padding: 10px;
-}
+} */
 
-.tab button {
+/* .tab button {
   background-color: black;
   float: left;
   border: none;
@@ -82,20 +97,17 @@ li:hover{
   padding: 14px 16px;
   transition: 0.5s;
   font-size: 17px;
-}
+} */
 
-/* Change background color of buttons on hover */
-.tab button:hover {
+/* .tab button:hover {
   background-color: #ddd;
 }
 
-/* Create an active/current tablink class */
 .tab button.active {
   background-color: #ccc;
-}
+} */
 
-/* Style the tab content */
-.tabcontent {
+/* .tabcontent {
   display: none;
   padding: 6px 12px;
   border: 1px solid #ccc;
@@ -106,4 +118,4 @@ li:hover{
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
-}
+} */

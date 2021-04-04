@@ -7,10 +7,6 @@ router.get('/login', async function(req, res){
   res.render('login', { title: 'Login'})
 });
 
-router.get('/transaction', async function(req, res){
-  res.render('transaction', { title: 'Transactions'})
-});
-
 router.post('/login', async function(req, res){
   var { username, password, register} = req.body;
   if(register){
@@ -25,14 +21,6 @@ router.post('/login', async function(req, res){
   } else {
     res.redirect('/home');
   }
-});
-
-router.get('/home', async function(req,res){
-  var {username} = req.session;
-  res.render('home', { 
-  username,
-  //transactions : await db.getTransaction(username),
-  });
 });
 
 router.get('/register', async function(req,res){
@@ -65,6 +53,18 @@ function ensureLoggedIn(req, res, next){
 }
 
 router.use(ensureLoggedIn);
+
+router.get('/home', async function(req,res){
+  var {username} = req.session;
+  res.render('home', { 
+  username,
+  //transactions : await db.getTransaction(username),
+  });
+});
+
+router.get('/transaction', async function(req, res){
+  res.render('transaction', { title: 'Transactions'})
+});
 
 router.post('/addtransaction', async function(req, res){
   var {type,amount, date} = req.body;
@@ -139,6 +139,35 @@ router.post('/import', async function(req,res){
   res.redirect('/transaction');
 });
 
+// SERVICES
+router.get('/services', async function(req,res){
+  res.render('services');
+});
+
+router.post('/services', async function(req,res){
+  res.redirect('/services');
+});
+
+// SERVICES/
+router.get('/services/financial-managers', async function(req,res){
+  let financialManagers = await db.getFinancialManagers();
+  res.render('financialManagers', {financialManagers});
+});
+
+router.post('/services/financial-managers', async function(req,res){
+  res.redirect('/services/financial-managers');
+});
+
+router.get('/services/wealth-management', async function(req,res){
+  let WealthManagementCompanies = await db.getWealthManagementCompanies();
+  res.render('wealthManagement', {WealthManagementCompanies});
+});
+
+router.post('/services/wealth-management', async function(req,res){
+  res.redirect('/services/wealth-management');
+}); 
+
+// LOGOUT
 router.post('/logout', async function(req, res){
   req.session.username = '';
   res.redirect('/login');

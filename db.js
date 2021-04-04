@@ -145,6 +145,20 @@ async function addExpense(username, type, amount, date){
     );
 }
 
+
+// services related
+async function getFinancialManagers(){
+    var conn = await connect();
+    let financialManagers = await conn.collection('financialManagers').find().toArray();
+    return financialManagers;
+}
+
+async function getWealthManagementCompanies(){
+    var conn = await connect();
+    let WealthManagementCompanies = await conn.collection('WealthManagementCompanies').find().toArray();
+    return WealthManagementCompanies;
+}
+
 async function close(){
     await client.close();
 }
@@ -160,6 +174,8 @@ module.exports = {
     registerWM,
     addIncome,
     addExpense,
+    getFinancialManagers,
+    getWealthManagementCompanies,
     close,
 };
 

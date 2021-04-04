@@ -1,11 +1,14 @@
+<div>{{> header}}</div>
+
 <div class="container">
     <h1>Welcome to your Dashboard</h1>
 
-    <form action="/transaction" method="get">
-        <input type="submit" value="Add data"/>
-    </form>
-
     <div class="row">
+        <div class="container">
+            <form action="/transaction" method="get">
+                <input type="submit" value="Add data"/>
+            </form>
+        </div>
         <div class ="container">
             <form action="/getIncome" method="post">
                 <input name="getIncome" type="submit" value="Get Income">
@@ -52,13 +55,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<br>
-<div class ="container">
-    <form action="/logout" method="post">
-        <input name="logout" type="submit" value="Log out">
-    </form>
 </div>
 
 <script>

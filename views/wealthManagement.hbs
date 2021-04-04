@@ -1,0 +1,16 @@
+<div>{{> header}}</div>
+
+<div>
+    <h1>Wealth Management</h1>
+</div>
+
+<div class="wealthManagement-list">
+    {{#each WealthManagementCompanies}}
+        <div class="wealthManagement-info">
+            <p>{{this.companyName}}</p>
+            <p>{{this.email}}</p>
+            <p>{{this.contactNum}}</p>
+        </div>
+        <br>
+    {{/each}}
+</div>
