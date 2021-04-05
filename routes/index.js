@@ -3,8 +3,15 @@ var router = express.Router();
 var db = require("../db");
 const CSVtoJSON = require("csvtojson");
 
+router.get('/', async function(req, res){
+  res.render('main', { title: 'Main'})
+});
+
 router.get('/login', async function(req, res){
   res.render('login', { title: 'Login'})
+});
+router.post('/loginmain', async function(req, res){
+  res.redirect('login')
 });
 
 router.post('/login', async function(req, res){
@@ -63,15 +70,18 @@ router.get('/home', async function(req,res){
 });
 
 router.get('/transaction', async function(req, res){
-  res.render('transaction', { title: 'Transactions'})
+  var {username} = req.session;
+  firstname =  await db.getFirstName(username);
+  transactions = await db.getExpense(username);
+  res.render('transaction', { title: 'Transactions', transactions,firstname})
 });
 
 router.post('/addtransaction', async function(req, res){
-  var {type,amount, date} = req.body;
+  var {SpendingCategory,amount, date} = req.body;
   var {username} = req.session;
   console.log(username)
-  console.log(req.body);
-  await db.addExpense(username,type, amount, date);
+  console.log(SpendingCategory, amount, date);
+  await db.addExpense(username,SpendingCategory, amount, date);
   res.redirect('/transaction');
 });
 
@@ -86,15 +96,15 @@ router.post('/addincome', async function(req, res){
 
 router.post('/getIncome', async function(req, res){
   var {username} = req.session;
-  //console.log(req.body);
+  console.log(req.body);
   await db.getIncome(username);
   res.redirect('/home');
 });
 
 router.post('/getExpense', async function(req, res){
   var {username} = req.session;
-  //console.log(req.body);
-  await db.getIncome(username);
+  console.log(req.body);
+  await db.getExpense(username);
   res.redirect('/home');
 });
 

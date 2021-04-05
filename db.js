@@ -64,6 +64,12 @@ async function login(username, password){
     console.log("Login successful");
 }
 
+async function getFirstName(username){
+    var conn = await connect();
+    var user = await conn.collection('users').findOne({username});
+    var firstname = user.firstname;
+    return firstname;
+}
 
 async function getIncome(username){
     var conn = await connect();
@@ -131,6 +137,7 @@ async function addIncome(username, type, amount, date){
 
 async function addExpense(username, type, amount, date){
     var conn = await connect();
+    console.log(username,type, amount,date)
     await conn.collection('users').updateOne(
         {username},
         {
@@ -168,6 +175,7 @@ module.exports = {
     login,
     register,
     deleteTransactionItem,
+    getFirstName,
     getIncome,
     getExpense,
     registerFM,

@@ -1,20 +1,25 @@
-<div>{{> header}}</div>
+<div>{{>header}}</div>
 
 <div class = "container">
-    <h1>Hello {{username}}, </h1>
-    <h2>Here are your current transactions:</h2>
+    <h1>Hello {{firstname}}, </h1>
+    <h2>Here are your transactions:</h2>
     <form>
-        <ul>
+        <table>
+            <tr>
+            <th>Transaction Number</th>
+            <th>Spending Category</th>
+            <th>Amount</th>
+            <th>Date</th>
+            </tr>
             {{#each transactions}}
-            <li>
-                <div class="item-text">{{this}}</div>
-            </li>
+            <tr>
+                <td>{{@index}}</td>
+                <td>{{type}}</td>
+                <td>{{amount}}</td>
+                <td>{{date}}</td>
+            </tr>
             {{/each}}
-        </ul>
-    </form>
-    
-    <form action="/home" method="get">
-        <input type="submit" value="Back"/>
+        </table>
     </form>
 
     <div class ="row">
@@ -32,7 +37,7 @@
                         <option value="Other" selected="selected">Other</option>        
                     </select>
                 </p>
-                <input  type ="number" name="cost" placeholder="Amount Spent">
+                <input  type ="float" name="amount" placeholder="Amount Spent">
                 <input type ="date" name="date" placeholder="Transaction Date"><br>
                 <input name="addtransaction" value="Add" type="submit">
             </form>
@@ -49,7 +54,7 @@
                         <option value="Other" selected="selected">Other</option>        
                     </select>
                 </p>
-                <input  type ="number" name="income" placeholder="Amount Spent"><br>
+                <input  type ="float" name="income" placeholder="Amount Spent"><br>
                 <input type ="date" name="date" placeholder="Transaction Date"><br>
                 <input name="addIncome" value="Add" type="submit">
             </form>
@@ -68,19 +73,33 @@
 <br>
 <div class ="container">
     <h1>Modify Transactions</h1>
-    <h2>Select Spending</h2>
     <p>
-    <label>Mode:</label>
-    <select name="Select Transaction">    
-        <option value="option1">option1</option>
-        <option value="option2">option2</option>
-        <option value="option3" selected="selected">option3</option>    
+    <label>Select Transaction:</label>
+    <div class="custom-select" style="width:200px;">
+    <select name="Select Transaction">
+        {{#each transactions}}    
+        <option value="option1">Transaction Number: {{@index}}</option>
+        {{/each}}    
     </select>
+    </div>
     </p>
 
-    <form action="modify" method="post">
-        <input name="SpendingCategory" placeholder="Change Spending Category"><br>
-        <input name="cost" placeholder="Amount Spent"><br>
+    <form action="/modify" method="post">
+        <p>
+            <label>Change Spending Category:</label>
+            <div>
+                <select name="ChangedSpendingCategory">    
+                    <option value="Travel">Travel</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Groceries" selected="selected">Groceries</option> 
+                    <option value="Shopping" selected="selected">Shopping</option>
+                    <option value="Entertainment" selected="selected">Entertainment</option>
+                    <option value="Other" selected="selected">Other</option>        
+                </select>
+            </div>
+        </p>
+        <input name="changeAmount" type ="float" placeholder="Amount Spent"><br>
+        <input name="changeDate" type ="date" placeholder="Date"><br>
         <input name="modifytransaction" value="Modify" type="submit">
     </form>
 </div>
