@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db");
 const CSVtoJSON = require("csvtojson");
+const multer = require('multer');
+const path = require('path');
 
 router.get('/', async function(req, res){
   res.render('main', { title: 'Main'})
@@ -134,15 +136,26 @@ router.post('/register-WM', async function(req,res){
 });
 
 // IMPORT DATA FROM CSV
-router.post('/import', async function(req,res){
-  var {username} = req.session;
-  CSVtoJSON().fromFile(req.body.myFile)
+const storage = multer.diskStorage({
+  destination: function(req, file, cb){
+    cb(null, './uploads/')
+  },
+
+  filename: function(req, file, cb){
+    cb(null, file.fieldname + path.extname(file.originalname));
+  }
+});
+
+router.post('/import', multer({storage: storage, dest: './uploads/'}).single('myFile'), function(req,res){
+  var username = req.session.username;
+
+  CSVtoJSON().fromFile(req.file.path)
   .then(jsonObj =>{
     for(var key in jsonObj){
       if(jsonObj[key].hasOwnProperty('Income')){
         db.addIncome(username, jsonObj[key].Income, jsonObj[key].Amount, jsonObj[key].Date);
-      }else if(jsonObj[key].hasOwnProperty('Expense')){
-        db.addExpense(username, jsonObj[key].Expense, jsonObj[key].Amount, jsonObj[key].Date);
+      }else if(jsonObj[key].hasOwnProperty('Expenses')){
+        db.addExpense(username, jsonObj[key].Expenses, jsonObj[key].Amount, jsonObj[key].Date);
       }
     }
   });
