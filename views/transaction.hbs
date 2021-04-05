@@ -59,7 +59,7 @@
 <br>
 <div class ="container">
     <h1>Add CSV File</h1>
-    <form action="/import" method="post">
+    <form action="/import" method="post" enctype="multipart/form-data">
         <label for="myFile">Choose a file (.csv):</label>
         <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
         <input type="submit">
