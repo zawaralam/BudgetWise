@@ -40,11 +40,12 @@ router.post('/register', async function(req, res){
   var { username, password, confirm, email, firstname, lastname, register} = req.body;
   var income = [];
   var expenses = [];
+  var appointmentTimes = [];
   if(register){
     if(password === confirm){
-      await db.register(username, password, email, firstname, lastname, income, expenses);
+      await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
       res.redirect('/');
-    }else{
+    } else{
       console.log("Passwords do not match");
       res.redirect('/register');
     }
@@ -65,6 +66,7 @@ router.use(ensureLoggedIn);
 
 router.get('/home', async function(req,res){
   var {username} = req.session;
+  // show the users booked times
   res.render('home', { 
   username,
   });
@@ -179,6 +181,9 @@ router.post('/services', async function(req,res){
 
 // SERVICES/
 router.get('/services/financial-managers', async function(req,res){
+  // if the time is 12am, then reset the entire booking times for all financial managers
+
+  // else just read from the db
   let financialManagers = await db.getFinancialManagers();
   res.render('financialManagers', {financialManagers});
 });
@@ -195,6 +200,25 @@ router.get('/services/wealth-management', async function(req,res){
 router.post('/services/wealth-management', async function(req,res){
   res.redirect('/services/wealth-management');
 }); 
+
+// booking times
+router.post('/services/financial-managers/book-time', async function(req,res) {
+  // get the value of the chosen time
+  // need to see if value is valid or unavailable
+  const {bookingTimes} = req.body;
+  const email = req.body.bookTime;
+  const {username} = req.session;
+  // if user already has a booking time at the specified time, then don't book at all
+  
+  // else
+  if(bookingTimes !== "unavailable") {
+    await db.bookTime(bookingTimes, email);
+  } else {
+    // do something else here
+    console.log("no times available for booking");
+  }
+  res.redirect('/services/financial-managers');
+});
 
 // LOGOUT
 router.post('/logout', async function(req, res){
