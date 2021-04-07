@@ -1,16 +1,21 @@
 {{> header}}
 
 <div>
-    <h1>Wealth Management</h1>
+    <h1>List of Available Wealth Management Companies</h1>
 </div>
 
 <div class="wealthManagement-list">
     {{#each WealthManagementCompanies}}
         <div class="wealthManagement-info">
+            <label>Company Name</label>
             <p>{{this.companyName}}</p>
+            <label>Email</label>
             <p>{{this.email}}</p>
+            <label>Contact Number</label>
             <p>{{this.contactNum}}</p>
         </div>
-        <br>
+        <div class="horizontal-row">
+            <hr>
+        </div>
     {{/each}}
 </div>

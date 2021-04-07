@@ -3,23 +3,24 @@
 <div class="transaction">
     <h1>Welcome to your Dashboard</h1>
 
-    <div class="row">
-        <div class="col-2">
+    <div class="add-view-options">
+        <div class="add-data">
             <form action="/transaction" method="get">
-                <input type="submit" value="Add data"/>
+                <button type="submit" value="Add data"/>Add Data</button>
             </form>
         </div>
-        <div class ="col-2">
+        <div class ="get-income">
             <form action="/getIncome" method="post">
-                <input name="getIncome" type="submit" value="Get Income">
+                <button name="getIncome" type="submit" value="Get Income">Get Income</button>
             </form>
         </div>
-        <div class ="col-2">
+        <div class ="get-expenses">
             <form action="/getExpense" method="post">
-                <input name="getExpense" type="submit" value="Get Expenses">
+                <button name="getExpense" type="submit" value="Get Expenses">Get Expenses</button>
             </form>
         </div>
     </div>
+
     <div class="row">
         <div class="col-6">
             <h3>Income</h3>

@@ -1,18 +1,41 @@
 <div>{{> header}}</div>
 
 <div>
-    <h1>Financial Managers</h1>
+    <h1>List of Available Financial Managers</h1>
 </div>
 
 <div class="financial-list">
     {{#each financialManagers}}
         <div class="financial-info">
+            <label>Fullname</label>
             <p>{{this.fullname}}</p>
+            <label>Email</label>
             <p>{{this.email}}</p>
+            <label>Company Name</label>
             <p>{{this.companyName}}</p>
+            <label>Contact Number</label>
             <p>{{this.contactNum}}</p>
-            <p>{{this.availableTime}}</p>
+            <label>Available Times</label>
+            <div class="available-times">
+                <form class="available-times" action="/services/financial-managers/book-time" method="post">
+                    <label>Pick a time:</label>
+                    <select id="bookingTimes" name="bookingTimes">
+                        {{#each this.availableTime}}
+                            <option value={{this}} name={{this}}>{{this}}</option>
+                        {{else}}
+                            <option value="unavailable" name="unavailable">No Available Times</option>
+                        {{/each}}
+                    </select>
+                    {{#if this.availableTime}}
+                        <button type="submit" name="bookTime" value={{this.email}}>Book Time</button>
+                    {{else}}
+                        <button type="submit" name="no-book-time">No Available Times</button>
+                    {{/if}}
+                </form>
+            </div>
         </div>
-        <br>
+        <div class="horiontal-row">
+            <hr>
+        </div>
     {{/each}}
 </div>

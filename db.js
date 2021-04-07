@@ -20,7 +20,7 @@ async function connect(){
     return db;
 }
 
-async function register(username, password, email, firstname, lastname, income, expenses){
+async function register(username, password, email, firstname, lastname, income, expenses, appointmentTimes){
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
@@ -44,7 +44,7 @@ async function register(username, password, email, firstname, lastname, income, 
     if(role === "Admin"){
         await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role});
     }else{
-        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role, income, expenses});
+        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role, income, expenses, appointmentTimes});
     }
 }
 
@@ -167,8 +167,6 @@ async function modifyExpense(username,transactionNum, type, amount, date){
     );
 }
 
-
-
 // services related
 async function getFinancialManagers(){
     var conn = await connect();
@@ -180,6 +178,16 @@ async function getWealthManagementCompanies(){
     var conn = await connect();
     let WealthManagementCompanies = await conn.collection('WealthManagementCompanies').find().toArray();
     return WealthManagementCompanies;
+}
+
+// booking time
+async function bookTime(bookingTime, email) {
+    var conn = await connect();
+    // remove the chosen time
+    await conn.collection('financialManagers').updateOne(
+        {email: email},
+        {$pull: {"availableTime": bookingTime}},
+    );
 }
 
 async function close(){
@@ -201,6 +209,7 @@ module.exports = {
     modifyExpense,
     getFinancialManagers,
     getWealthManagementCompanies,
+    bookTime,
     close,
 };
 
