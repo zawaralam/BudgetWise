@@ -150,24 +150,35 @@ async function addExpense(username, type, amount, date){
         }
     );
 }
-async function modifyExpense(username,transactionNum, type, amount, date){
+async function modifyExpense(username,transactionNum, usertype, useramount, userdate){
     var conn = await connect();
-    console.log(username,type, amount,date)
-    await conn.collection('users').findAndModify(
+    var user = await conn.collection('users').findOne({username});
+    var userexpenses = user.expenses;
+    var origtype = userexpenses[transactionNum].type;
+    var origamount = userexpenses[transactionNum].amount;
+    var origdate = userexpenses[transactionNum].date;
+
+    await conn.collection('users').updateOne(
         {username},
         {
-            $push:{
-                expenses:{
-                    type: type,
-                    amount: amount,
-                    date: date,
-                }
+            $pull: {
+                expenses:{type:origtype,amount:origamount,date:origdate}
             }
         }
-    );
+    )
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push: {
+                expenses:{
+                    $each:[{type:usertype,amount:useramount,date:userdate}],
+                    $position: parseInt(transactionNum)
+            }
+        }
+    })
+
+    //console.log(results)
 }
-
-
 
 // services related
 async function getFinancialManagers(){

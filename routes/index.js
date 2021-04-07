@@ -67,7 +67,6 @@ router.get('/home', async function(req,res){
   var {username} = req.session;
   res.render('home', { 
   username,
-  //transactions : await db.getTransaction(username),
   });
 });
 
@@ -113,10 +112,7 @@ router.post('/getExpense', async function(req, res){
 router.post('/modify', async function(req, res){
   var {transactionNum,ChangedSpendingCategory, changeAmount, changeDate} = req.body;
   var {username} = req.session;
-
-  console.log(username)
-  console.log(transactionNum, ChangedSpendingCategory, changeAmount,changeDate);
-  //await db.modifyExpense(username,transactionNum, ChangedSpendingCategory, ChangedAmount, changeDate);
+  await db.modifyExpense(username,transactionNum, ChangedSpendingCategory, changeAmount, changeDate);
   res.redirect('/transaction');
 });
 
