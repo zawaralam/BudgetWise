@@ -66,9 +66,15 @@ router.use(ensureLoggedIn);
 
 router.get('/home', async function(req,res){
   var {username} = req.session;
-  // show the users booked times
+  var income = await db.getIncome(username);
+  var expenses = await db.getExpense(username);
+  income = JSON.stringify(income);
+  expenses = JSON.stringify(expenses);
   res.render('home', { 
-  username,
+    title: 'Home',
+    username,
+    income,
+    expenses
   });
 });
 
@@ -99,14 +105,12 @@ router.post('/addincome', async function(req, res){
 
 router.post('/getIncome', async function(req, res){
   var {username} = req.session;
-  console.log(req.body);
   await db.getIncome(username);
   res.redirect('/home');
 });
 
 router.post('/getExpense', async function(req, res){
   var {username} = req.session;
-  console.log(req.body);
   await db.getExpense(username);
   res.redirect('/home');
 });
