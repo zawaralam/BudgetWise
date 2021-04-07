@@ -213,7 +213,7 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
   const email = req.body.bookTime;
   const {username} = req.session;
   // if user already has a booking time at the specified time, then don't book at all
-
+  
   // else
   if(bookingTimes !== "unavailable") {
     await db.bookTime(bookingTimes, email);

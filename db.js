@@ -190,6 +190,14 @@ async function bookTime(bookingTime, email) {
     );
 }
 
+// check booking time
+async function checkAvailableTime(username, bookingTime) {
+    var conn = await connect();
+    await conn.collection('users').findOne({
+        // continue here
+    });
+}
+
 async function close(){
     await client.close();
 }
@@ -209,6 +217,7 @@ module.exports = {
     modifyExpense,
     getFinancialManagers,
     getWealthManagementCompanies,
+    checkAvailableTime,
     bookTime,
     close,
 };
