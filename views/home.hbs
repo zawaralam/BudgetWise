@@ -1,27 +1,28 @@
 <div>{{> header}}</div>
 
-<div class="container">
+<div class="transaction">
     <h1>Welcome to your Dashboard</h1>
 
     <div class="row">
-        <div class="container">
+        <div class="col-2">
             <form action="/transaction" method="get">
                 <input type="submit" value="Add data"/>
             </form>
         </div>
-        <div class ="container">
+        <div class ="col-2">
             <form action="/getIncome" method="post">
                 <input name="getIncome" type="submit" value="Get Income">
             </form>
         </div>
-        <div class ="container">
+        <div class ="col-2">
             <form action="/getExpense" method="post">
                 <input name="getExpense" type="submit" value="Get Expenses">
             </form>
         </div>
-        
-        <div class="col">
-            <h2>Income</h2>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <h3>Income</h3>
             <div class="tab">
                 <button class="tablinks" onclick="openTabIncome(event, 'Pie')">Pie</button>
                 <button class="tablinks" onclick="openTabIncome(event, 'Treemap')">Treemap</button>
@@ -37,8 +38,8 @@
                 <p>Income as a Treemap</p>
             </div>
         </div>
-        <div class="col">
-            <h2>Expenses</h2>
+        <div class="col-6">
+            <h3>Expenses</h3>
             <div class="tab">
                 <button class="tablinks" onclick="openTabExpense(event, 'PieExpense')">Pie</button>
                 <button class="tablinks" onclick="openTabExpense(event, 'TreemapExpense')">Treemap</button>

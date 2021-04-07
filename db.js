@@ -150,6 +150,23 @@ async function addExpense(username, type, amount, date){
         }
     );
 }
+async function modifyExpense(username,transactionNum, type, amount, date){
+    var conn = await connect();
+    console.log(username,type, amount,date)
+    await conn.collection('users').findAndModify(
+        {username},
+        {
+            $push:{
+                expenses:{
+                    type: type,
+                    amount: amount,
+                    date: date,
+                }
+            }
+        }
+    );
+}
+
 
 
 // services related
@@ -181,6 +198,7 @@ module.exports = {
     registerWM,
     addIncome,
     addExpense,
+    modifyExpense,
     getFinancialManagers,
     getWealthManagementCompanies,
     close,

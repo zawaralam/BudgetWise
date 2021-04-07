@@ -110,6 +110,16 @@ router.post('/getExpense', async function(req, res){
   res.redirect('/home');
 });
 
+router.post('/modify', async function(req, res){
+  var {transactionNum,ChangedSpendingCategory, changeAmount, changeDate} = req.body;
+  var {username} = req.session;
+
+  console.log(username)
+  console.log(transactionNum, ChangedSpendingCategory, changeAmount,changeDate);
+  //await db.modifyExpense(username,transactionNum, ChangedSpendingCategory, ChangedAmount, changeDate);
+  res.redirect('/transaction');
+});
+
 // ADMIN STUFF
 router.get('/admin', async function(req,res){
   res.render('admin');

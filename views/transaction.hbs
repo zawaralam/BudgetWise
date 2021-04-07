@@ -1,6 +1,6 @@
-<div>{{>header}}</div>
+{{>header}}
 
-<div class = "container">
+<div class = "transaction">
     <h1>Hello {{firstname}}, </h1>
     <h2>Here are your transactions:</h2>
     <form>
@@ -21,74 +21,14 @@
             {{/each}}
         </table>
     </form>
-
+</div>
+<div class = "transaction">
     <div class ="row">
-        <div class = "col">
-            <h1>Add Expenses</h1>
-            <form action="/addtransaction" method="post">
-                <p>
-                    <label>Select Spending Category:</label>
-                    <select name="SpendingCategory">    
-                        <option value="Travel">Travel</option>
-                        <option value="Utilities">Utilities</option>
-                        <option value="Groceries" selected="selected">Groceries</option> 
-                        <option value="Shopping" selected="selected">Shopping</option>
-                        <option value="Entertainment" selected="selected">Entertainment</option>
-                        <option value="Other" selected="selected">Other</option>        
-                    </select>
-                </p>
-                <input  type ="float" name="amount" placeholder="Amount Spent">
-                <input type ="date" name="date" placeholder="Transaction Date"><br>
-                <input name="addtransaction" value="Add" type="submit">
-            </form>
-        </div>
-        <br>
-        <div class = "col">
-            <h1>Add Income</h1>
-            <form action="/addincome" method="post">
-                <p>
-                    <label>Select Income Category:</label>
-                    <select name="IncomeCategory">    
-                        <option value="Salary">Salary</option>
-                        <option value="Part-time Income">Part-time Income</option>
-                        <option value="Other" selected="selected">Other</option>        
-                    </select>
-                </p>
-                <input  type ="float" name="income" placeholder="Amount Spent"><br>
-                <input type ="date" name="date" placeholder="Transaction Date"><br>
-                <input name="addIncome" value="Add" type="submit">
-            </form>
-        </div>
-    </div>
-</div>
-<br>
-<div class ="container">
-    <h1>Add CSV File</h1>
-    <form action="/import" method="post" enctype="multipart/form-data">
-        <label for="myFile">Choose a file (.csv):</label>
-        <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
-        <input type="submit">
-    </form>
-</div>
-<br>
-<div class ="container">
-    <h1>Modify Transactions</h1>
-    <p>
-    <label>Select Transaction:</label>
-    <div class="custom-select" style="width:200px;">
-    <select name="Select Transaction">
-        {{#each transactions}}    
-        <option value="option1">Transaction Number: {{@index}}</option>
-        {{/each}}    
-    </select>
-    </div>
-    </p>
-
-    <form action="/modify" method="post">
-        <p>
-            <label>Change Spending Category:</label>
-            <div>
-                <select name="ChangedSpendingCategory">    
+        <h2>Add Expenses</h2>
+        <form action="/addtransaction" method="post">
+            <p>
+                <label>Select Spending Category:</label>
+                <select name="SpendingCategory">    
                     <option value="Travel">Travel</option>
                     <option value="Utilities">Utilities</option>
                     <option value="Groceries" selected="selected">Groceries</option> 
@@ -96,10 +36,67 @@
                     <option value="Entertainment" selected="selected">Entertainment</option>
                     <option value="Other" selected="selected">Other</option>        
                 </select>
+            </p>
+            <div class="row-sm">
+            <input  type ="float" name="amount" placeholder="Amount Spent">
             </div>
-        </p>
-        <input name="changeAmount" type ="float" placeholder="Amount Spent"><br>
-        <input name="changeDate" type ="date" placeholder="Date"><br>
-        <input name="modifytransaction" value="Modify" type="submit">
-    </form>
+            <div class="row-sm">
+            <input type ="date" name="date" placeholder="Transaction Date">
+            </div>
+            <div class="row-sm">
+            <input name="addtransaction" class="transactionbutton" value="Add" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
+<div class = "transaction">
+    <div class = "row">
+        <h2>Add Income</h2>
+        <form action="/addincome" method="post">
+            <p>
+                <label>Select Income Category:</label>
+                <select name="IncomeCategory">    
+                    <option value="Salary">Salary</option>
+                    <option value="Part-time Income">Part-time Income</option>
+                    <option value="Other" selected="selected">Other</option>        
+                </select>
+            </p>
+            <input  type ="float" name="income" placeholder="Amount Spent"><br>
+            <input type ="date" name="date" placeholder="Transaction Date"><br>
+            <input name="addIncome" class="transactionbutton" value="Add" type="submit">
+        </form>
+    </div>
+</div>
+<div class = "transaction">
+    <div class = "row">
+        <h2>Add CSV File</h2>
+        <form action="/import" method="post" enctype="multipart/form-data">
+            <label for="myFile">Choose a file (.csv):</label>
+            <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
+            <input type="submit" class="transactionbutton">
+        </form>
+    </div>
+</div>
+<div class = "transaction">
+    <div class = "row">
+        <h2>Modify Transactions</h2>
+        <label>Select Transaction:</label>
+        <form action="/modify" method="post">
+            <input name="transactionNum" type ="float" placeholder="Transaction Number"><br>
+            <br>
+            <label>Change Spending Category:</label>
+            <select name="ChangedSpendingCategory">    
+                <option value="Travel">Travel</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Groceries" selected="selected">Groceries</option> 
+                <option value="Shopping" selected="selected">Shopping</option>
+                <option value="Entertainment" selected="selected">Entertainment</option>
+                <option value="Other" selected="selected">Other</option>        
+            </select>
+            <br>
+            <input name="changeAmount" type ="number" placeholder="Amount Spent"><br>
+            <input name="changeDate" type ="date" placeholder="Date"><br>
+            <input name="modifytransaction" value="Modify" type="submit" class="transactionbutton">
+        </form>
+    </div>
 </div>
