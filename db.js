@@ -193,21 +193,51 @@ async function getWealthManagementCompanies(){
 }
 
 // booking time
-async function bookTime(bookingTime, email) {
+async function bookTime(bookingTime, email, username) {
     var conn = await connect();
+    const financialuser = await conn.collection('financialManagers').findOne(
+        {email: email},
+    );
+
+    const financialUsername = (financialuser.fullname);
+
     // remove the chosen time
     await conn.collection('financialManagers').updateOne(
         {email: email},
         {$pull: {"availableTime": bookingTime}},
     );
+    // need to add this time to the users database
+    await conn.collection('users').updateOne(
+        {username: username},
+        {$push: {"appointmentTimes": {bookingTime, email, financialUsername}}}
+    );
 }
 
 // check booking time
-async function checkAvailableTime(username, bookingTime) {
+async function checkAvailableTime(bookingTime) {
     var conn = await connect();
-    await conn.collection('users').findOne({
-        // continue here
-    });
+    let available = await conn.collection('users').find(
+        {appointmentTimes: {$elemMatch: {bookingTime: bookingTime}}}
+    ).toArray();
+    return available;
+}
+
+async function resetFinancialTimes() {
+    // repopulate the availableTimes array
+    var conn = await connect();
+    await conn.collection('financialManagers').updateMany(
+        {},
+        {$set: {availableTime: ['8:00-8:55','9:00-9:55','10:00-10:55','11:00-11:55','12:00-12:55','13:00-13:55','14:00-14:55','15:00-15:55']}}
+    );
+}
+
+async function resetAppointments() {
+    // repopulate the availableTimes array
+    var conn = await connect();
+    await conn.collection('users').updateMany(
+        {},
+        {$set: {appointmentTimes: []}}
+    );
 }
 
 async function close(){
@@ -231,6 +261,8 @@ module.exports = {
     getWealthManagementCompanies,
     checkAvailableTime,
     bookTime,
+    resetFinancialTimes,
+    resetAppointments,
     close,
 };
 
