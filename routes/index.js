@@ -56,7 +56,7 @@ router.post('/register', async function(req, res){
         // res.redirect('/register');
       }
     } else {
-      throw new Error("Minimum password length is 8 digits.");
+      throw new Error("Minimum password length is 6 digits.");
     }
   }
   res.redirect('/register');
@@ -78,7 +78,7 @@ router.get('/home', async function(req,res){
   var firstname =  await db.getFirstName(username);
   var income = await db.getIncome(username);
   var expenses = await db.getExpense(username);
-  var budgetingGoal = await db.getBudgetingGoal(username);
+  var budgetGoal = await db.getBudgetingGoal(username);
 
   // check if user has any appoints
   let appointments = await db.getAppointments(username);
@@ -94,7 +94,7 @@ router.get('/home', async function(req,res){
     firstname,
     income,
     expenses,
-    budgetingGoal,
+    budgetGoal,
     appointments,
   });
 });

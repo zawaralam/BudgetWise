@@ -73,7 +73,6 @@
     }
 
     // BUDGET PERCENT CHART
-    var budgetPercent = 0;
     am4core.ready(function() {
         am4core.useTheme(am4themes_animated);
 
@@ -93,30 +92,45 @@
             expensesTotal += expenseToAdd;
             j++;
         });
-        budgetRemainingPercent = ({{budgetingGoal}} + incomeTotal - expensesTotal)/{{budgetingGoal}} * 100;
-        var budgetSavedPercent = incomeTotal/{{budgetingGoal}}*100;
-        var expensesPercent = expensesTotal/{{budgetingGoal}}*100;
+        var budget = parseFloat({{budgetGoal}});
+        var budgetRemainingPercent = 0;
+        var budgetSavedPercent = 0;
+        if(budget > 0){
+            budgetRemainingPercent = (budget - (incomeTotal - expensesTotal))/budget * 100;
+            budgetSavedPercent = (incomeTotal-expensesTotal)/budget*100;
+        }
+        console.log(incomeTotal, expensesTotal, budgetRemainingPercent, budgetSavedPercent);
 
         // Add data
-        chart.data = [{
-            "category": "3",
-            "from": 0,
-            "to": budgetPercent,
-            "name": "Budget",
-            "fill": am4core.color("#9e9e9e")
-            }, {
-            "category": "2",
-            "from": 0,
-            "to": expensesPercent,
-            "name": "Expenses",
-            "fill": am4core.color("#cd213b")
-            }, {
-            "category": "1",
-            "from": 0,
-            "to": incomePercent,
-            "name": "Income",
-            "fill": am4core.color("#0ca948")
-        }];
+        if(budgetSavedPercent >= 0){
+            chart.data = [{
+                "category": "",
+                "from": budgetSavedPercent,
+                "to": budgetRemainingPercent,
+                "name": "Budget Goal",
+                "fill": am4core.color("#9e9e9e")
+                }, {
+                "category": "",
+                "from": 0,
+                "to": budgetSavedPercent,
+                "name": "Percent of Budget Saved",
+                "fill": am4core.color("#0ca948")
+            }];
+        }else if(budgetSavedPercent < 0){
+            chart.data = [{
+                "category": "",
+                "from": budgetSavedPercent,
+                "to": budgetRemainingPercent,
+                "name": "Budget Goal",
+                "fill": am4core.color("#9e9e9e")
+                }, {
+                "category": "",
+                "from": 0,
+                "to": budgetSavedPercent,
+                "name": "Percent of Budget Saved",
+                "fill": am4core.color("#cd213b")
+            }];
+        }
 
         // Create axes
         var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
@@ -128,8 +142,6 @@
         xAxis.renderer.grid.template.disabled = true;
         xAxis.renderer.grid.template.disabled = true;
         xAxis.renderer.labels.template.disabled = true;
-        {{!-- xAxis.min = 0; --}}
-        {{!-- xAxis.max = 100; --}}
 
         // Create series
         var series = chart.series.push(new am4charts.ColumnSeries());
@@ -165,7 +177,6 @@
         legend.itemContainers.template.cursorOverStyle = am4core.MouseCursorStyle.default;
         legend.align = "right";
         legend.data = chart.data;
-
     });
 
     // INCOME PIE CHART
@@ -330,7 +341,7 @@
 
     <div class="budget-goal">
         <h3>Your Monthly Budgeting Goal:</h3>
-        <h4>${{budgetingGoal}}</h4>
+        <h4>${{budgetGoal}}</h4>
     </div>
 
     <div class="appointment">
