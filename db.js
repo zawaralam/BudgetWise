@@ -15,7 +15,7 @@ async function connect(){
             useUnifiedTopology: true,
         };
         var client = await MongoClient.connect(url, options);
-        db = client.db("cps888");
+        db = await client.db("cps888");
     }
     return db;
 }
@@ -167,6 +167,26 @@ async function modifyExpense(username,transactionNum, type, amount, date){
     );
 }
 
+async function setBudgetingGoal(username, budgetAmount){
+    var conn = await connect();
+    console.log(username, budgetAmount)
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push:{
+                budgetAmount: budgetAmount,
+            }
+        }
+    );     
+}
+
+async function getBudgetingGoal(username){
+    var conn = await connect();
+    var user = await conn.collection('users').findOne({username});
+    var budgetAmount = user.budgetAmount;
+    return budgetAmount;     
+}
+
 // services related
 async function getFinancialManagers(){
     var conn = await connect();
@@ -198,6 +218,40 @@ async function checkAvailableTime(username, bookingTime) {
     });
 }
 
+async function suggestBudgetingGoal(username){
+    var suggestedAmount = Math.floor(Math.random() * 6000) + 1;
+    var conn = await connect();
+    //return suggestedAmount;
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push:{
+                suggestedAmount: suggestedAmount,
+            }
+        }
+    )
+}
+
+async function getSuggestedBudgetingGoal(username){
+    var conn = await connect();
+    var user = await conn.collection('users').findOne({username});
+    var suggestedAmount = user.suggestedAmount;
+    return suggestedAmount;     
+}
+
+async function feedback(username, note){
+    var conn = await connect();
+    console.log(username);
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $push:{
+                feedback: note,
+            }
+        }
+    );   
+}
+
 async function close(){
     await client.close();
 }
@@ -215,10 +269,15 @@ module.exports = {
     addIncome,
     addExpense,
     modifyExpense,
+    setBudgetingGoal,
+    getBudgetingGoal,
     getFinancialManagers,
     getWealthManagementCompanies,
     checkAvailableTime,
     bookTime,
+    suggestBudgetingGoal,
+    getSuggestedBudgetingGoal,
+    feedback,
     close,
 };
 

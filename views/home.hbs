@@ -56,7 +56,32 @@
                 <p>Expenses as a Treemap</p>
             </div>
         </div>
-    </div>
+
+        <div class="col-6 mx-auto">
+            <h3>Suggested Budget Goal</h3>
+                <p style="colour:black;font-size:11px;">*Note that you must first book an appointment with a financial advisor to have suggested budget goals*</p> 
+            <div class="suggestGoal">
+                <form action="/suggestBudgetingGoal" method="post">
+                    <button name="suggestBudgetingGoal" type="submit">Suggested Budget Goal</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-12 mx-auto">
+        <div style="position: fixed; right:2px; top: 800px">
+            <h9>Comments/Feedback</h9>
+            <div class="feedback">
+                <form action="/feedback" method="post">
+                    <textarea id="note" name="note" rows="1" cols="50" wrap="physical">   
+                    </textarea>
+                    <button name="feedback" type="submit">feedback</button>
+                </form>
+            </div>
+        </div>
+        </div>
+
+    </div>  
 </div>
 
 <script>

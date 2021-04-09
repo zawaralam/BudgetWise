@@ -77,7 +77,8 @@ router.get('/transaction', async function(req, res){
   var {username} = req.session;
   firstname =  await db.getFirstName(username);
   transactions = await db.getExpense(username);
-  res.render('transaction', { title: 'Transactions', transactions,firstname})
+  budgetAmount = await db.getBudgetingGoal(username);
+  res.render('transaction', { title: 'Transactions', transactions,firstname, budgetAmount})
 });
 
 router.post('/addtransaction', async function(req, res){
@@ -110,6 +111,38 @@ router.post('/getExpense', async function(req, res){
   console.log(req.body);
   await db.getExpense(username);
   res.redirect('/home');
+});
+
+router.post('/setBudgetingGoal', async function(req, res){
+  var{budgetAmount} = req.body;
+  var {username} = req.session;
+  console.log(username);
+  console.log(budgetAmount);
+  await db.setBudgetingGoal(username, budgetAmount);
+  res.redirect('/transaction');
+});
+
+router.post('/getBudgetingGoal', async function(req, res){
+  var {username} = req.session;
+  console.log(req.body);
+  await db.getBudgetingGoal(username);
+  res.redirect('/transaction');
+});
+
+router.post('/feedback', async function(req, res){
+  var {username} = req.session;
+  var {note} = req.body;
+  console.log(req.body);
+  await db.feedback(username, note);
+  res.redirect('/home');
+});
+
+router.post('/suggestBudgetingGoal', async function(req, res){
+  var {username} = req.session;
+  //var {budgetAmount} = req.body;
+  console.log(req.body);
+  await db.suggestBudgetingGoal(username);
+  res.redirect('/services');
 });
 
 router.post('/modify', async function(req, res){
@@ -176,7 +209,9 @@ router.post('/import', multer({storage: storage, dest: './uploads/'}).single('my
 
 // SERVICES
 router.get('/services', async function(req,res){
-  res.render('services');
+  var {username} = req.session;
+  var suggestedAmount = await db.getSuggestedBudgetingGoal(username);
+  res.render('services', {suggestedAmount});
 });
 
 router.post('/services', async function(req,res){

@@ -15,3 +15,25 @@
         <button type="submit">View Wealth Management Companies</button>
     </form>
 </div>
+
+<div class="service">
+    <form>
+        <p style="colour:black;font-size:18px;">Suggested Budgeting Goals:</p>
+        <div class="suggestGoals">
+            <form>
+                <table>
+                    <tr>
+                        <th>Months:</th>
+                        <th>Suggested Budgeting Amount($):</th>
+                    </tr>
+                    {{#each suggestedAmount}}
+                    <tr>
+                        <td>{{@index}}</td>
+                        <td>{{this}}</td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </form>
+        </div>
+    </form>
+</div>
