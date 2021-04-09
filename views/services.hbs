@@ -4,34 +4,35 @@
     <h1>Services Page</h1>
 </div>
 
-<div class="service">
-    <form action="/services/financial-managers" method="post">
-        <button type="submit" class="btn btn-primary">View Financial Manager</button>
-    </form>
+<div class="services">
+    <div class="service-1">
+        <img src="../public/images/financial-manager.jpg" class="services-img">
+        <br>
+        <form action="/services/financial-managers" method="post">
+            <button type="submit">View Financial Manager</button>
+        </form>
+    </div>
+
+    <div class="service-2">
+        <img src="../public/images/budget-goal.png" class="services-img">
+        <br>
+        <form action="/services/wealth-management" method="post">
+            <button type="submit">View Wealth Management Companies</button>
+        </form>
+    </div>
 </div>
 
-<div class="service">
-    <form action="/services/wealth-management" method="post">
-        <button type="submit" class="btn btn-primary">View Wealth Management Companies</button>
-    </form>
-</div>
-
-<div class="service">
+<div class="service-3">
     <form>
-        <p style="colour:black;font-size:18px;">Suggested Budgeting Goals:</p>
         <div class="suggestGoals">
             <form>
                 <table>
                     <tr>
-                        <th>Months:</th>
                         <th>Suggested Budgeting Amount($):</th>
                     </tr>
-                    {{#each suggestedAmount}}
                     <tr>
-                        <td>{{@index}}</td>
-                        <td>{{this}}</td>
+                        <td>${{suggestedAmount}}</td>
                     </tr>
-                    {{/each}}
                 </table>
             </form>
         </div>

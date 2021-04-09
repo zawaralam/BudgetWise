@@ -27,9 +27,9 @@
                         {{/each}}
                     </select>
                     {{#if this.availableTime}}
-                        <button class="btn btn-primary" type="submit" name="bookTime" value={{this.email}}>Book Time</button>
+                        <button type="submit" name="bookTime" value={{this.email}}>Book Time</button>
                     {{else}}
-                        <button class="btn btn-primary" type="submit" name="no-book-time">No Available Times</button>
+                        <button type="submit" name="no-book-time">No Available Times</button>
                     {{/if}}
                 </form>
             </div>

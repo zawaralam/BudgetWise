@@ -283,7 +283,7 @@ async function getSuggestedBudgetingGoal(username){
     var conn = await connect();
     var user = await conn.collection('users').findOne({username});
     var suggestedAmount = user.suggestedAmount;
-    return suggestedAmount;     
+    return suggestedAmount;
 }
 
 async function feedback(username, note){
