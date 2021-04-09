@@ -2,12 +2,12 @@
 <div>
     <h1>Register</h1>
     <form action="/register" method="post">
-        <input name="firstname" placeholder="First Name"><br>
-        <input name="lastname" placeholder="Last Name"><br>
-        <input name="email" placeholder="Email"><br>
-        <input name="username" placeholder="Username"><br>
-        <input name="password" placeholder="Password" type="password"><br>
-        <input name="confirm" placeholder="Confirm Password" type="password"><br>
+        <input name="firstname" placeholder="First Name" required><br>
+        <input name="lastname" placeholder="Last Name" required><br>
+        <input name="email" placeholder="Email" type="email" required><br>
+        <input name="username" placeholder="Username" required><br>
+        <input name="password" placeholder="Password - minimum 8 digits long" type="password" required><br>
+        <input name="confirm" placeholder="Confirm Password" type="password" required><br>
         <input name="register" value="Register" type="submit">
     </form>
 </div>

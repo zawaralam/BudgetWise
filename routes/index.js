@@ -4,29 +4,32 @@ var db = require("../db");
 const CSVtoJSON = require("csvtojson");
 const multer = require('multer');
 const path = require('path');
-let updated_financial = false;
 
 router.get('/', async function(req, res){
   res.render('main', { title: 'Main'})
 });
 
 router.get('/login', async function(req, res){
-  res.render('login', { title: 'Login'})
+  
+  res.render('login', { title: 'Login'});
 });
+
 router.post('/loginmain', async function(req, res){
   res.redirect('login')
 });
 
 router.post('/login', async function(req, res){
   var { username, password, register} = req.body;
-  if(register){
-    res.redirect('/register');
-  } else {
-    await db.login(username, password);
-  }
+  // if(register){
+  //   res.redirect('/register');
+  // } else {
+  //   await db.login(username, password);
+  // }
+  await db.login(username, password);
   // if user was found and logged in, then redirect them to the dashboard
+
   req.session.username = username;
-  if (username.toLowerCase() === "admin") {
+  if (username.toLowerCase() === "admin"){
     res.redirect('/admin');
   } else {
     res.redirect('/home');
@@ -43,12 +46,20 @@ router.post('/register', async function(req, res){
   var expenses = [];
   var appointmentTimes = [];
   if(register){
-    if(password === confirm){
-      await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
-      res.redirect('/');
-    } else{
-      console.log("Passwords do not match");
-      res.redirect('/register');
+    // check for valid password strength
+    if(password.length >= 6) {
+      // check if passwords match
+      if(password === confirm){
+        await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
+        res.redirect('/home');
+      } else{
+        console.log("Passwords do not match.");
+        throw new Error("Passwords do not match.");
+        // res.redirect('/register');
+      }
+    } else {
+      console.log("Minimum password length is 8 digits.");
+      throw new Error("Minimum password length is 8 digits.");
     }
   }
   res.redirect('/register');

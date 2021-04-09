@@ -2,6 +2,7 @@
   margin: 0;
   font-family: sans-serif;
   width: 100%;
+  /* background-color: #30303d; color: #fff; */
 }
 body{
   /* display: flex;
@@ -26,8 +27,8 @@ form {
 
 h1{
   padding: 10pt;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
+  /* color: rgb(0, 0, 0); */
+  font-weight: normal;
   font-family: fantasy;
   margin-top: 10pt;
 }
