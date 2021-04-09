@@ -158,6 +158,7 @@ async function modifyExpense(username,transactionNum, usertype, useramount, user
     var origtype = userexpenses[transactionNum].type;
     var origamount = userexpenses[transactionNum].amount;
     var origdate = userexpenses[transactionNum].date;
+    var amountToAdd = "$" + parseFloat(useramount).toFixed(2);
 
     await conn.collection('users').updateOne(
         {username},
@@ -172,7 +173,7 @@ async function modifyExpense(username,transactionNum, usertype, useramount, user
         {
             $push: {
                 expenses:{
-                    $each:[{type:usertype,amount:useramount,date:userdate}],
+                    $each:[{type:usertype,amount:amountToAdd,date:userdate}],
                     $position: parseInt(transactionNum)
             }
         }

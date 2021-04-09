@@ -75,7 +75,6 @@
     // BUDGET PERCENT CHART
     var budget = 0;
     am4core.ready(function() {
-        am4core.useTheme(am4themes_dark);
         am4core.useTheme(am4themes_animated);
 
         var chart = am4core.create("budgetProgress", am4charts.XYChart);
@@ -193,7 +192,7 @@
         pieSeries.slices.template.stroke = am4core.color("#fff");
         pieSeries.slices.template.strokeWidth = 2;
         pieSeries.slices.template.strokeOpacity = 1;
-        pieSeries.labels.template.fill = am4core.color("#fff");
+        pieSeries.labels.template.fill = am4core.color("#000");
         pieSeries.slices.template.tooltipText = "{category}: ${value.formatNumber('#.##')}";
 
         // This creates initial animation
@@ -241,7 +240,7 @@
         level1_bullet.locationY = 0.5;
         level1_bullet.locationX = 0.5;
         level1_bullet.label.text = "{name}";
-        level1_bullet.label.fill = am4core.color("#fff");
+        level1_bullet.label.fill = am4core.color("#000");
 
         am4core.unuseTheme(greenTheme);
     });
@@ -270,7 +269,7 @@
         pieSeries.slices.template.stroke = am4core.color("#fff");
         pieSeries.slices.template.strokeWidth = 2;
         pieSeries.slices.template.strokeOpacity = 1;
-        pieSeries.labels.template.fill = am4core.color("#fff");
+        pieSeries.labels.template.fill = am4core.color("#000");
         pieSeries.slices.template.tooltipText = "{category}: ${value.formatNumber('#.##')}";
 
         // This creates initial animation
@@ -318,7 +317,7 @@
         level1_bullet.locationY = 0.5;
         level1_bullet.locationX = 0.5;
         level1_bullet.label.text = "{name}";
-        level1_bullet.label.fill = am4core.color("#fff");
+        level1_bullet.label.fill = am4core.color("#000");
 
         am4core.unuseTheme(redTheme);
     });
