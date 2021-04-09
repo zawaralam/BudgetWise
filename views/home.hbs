@@ -326,11 +326,44 @@
 <div>{{> header}}</div>
 
 <div class="home">
-    <h1>Welcome to your Dashboard</h1>
+    <h1>{{firstname}}'s Dashboard</h1>
+
+    <div class="budget-goal">
+        <h3>Your Monthly Budgeting Goal:</h3>
+        <h4>${{budgetingGoal}}</h4>
+    </div>
+
+    <div class="appointment">
+        <h1>Appointments</h1>
+        {{#if appointments}}
+            <p>Here are the details regarding your scheduled appointment with the following financial managers:</p>
+            {{#each appointments}}
+                <div class="appointment-info">
+                    <h4>Financial Advisor's name: </h4>
+                    <p>{{financialUsername}}</p>
+                    <h4>Appointment Time: </h4>
+                    <p>{{bookingTime}}</p>
+                    <h4>Financial Advisor's email: </h4>
+                    <p>{{this.email}}</p>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>You currently don't have any appointments.</p>
+            <br>
+        {{/if}}
+    </div>
+
+    <div class="view-transactions">
+        <form action="/view-transactions" method="get">
+            <label>To view your transactions, click on 'View Transactions'.</label>
+            <button type="submit" value="View Transactions"/>View Transactions</button>
+        </form>
+    </div>
 
     <div class="add-view-options">
         <div class="add-data">
             <form action="/transaction" method="get">
+                <label>To add income and expenses, click on 'Add Data'.</label>
                 <button type="submit" value="Add data"/>Add Data</button>
             </form>
         </div>
@@ -349,7 +382,7 @@
                 <button class="tablinks" onclick="openTabIncome(event, 'Treemap')">Treemap</button>
                 </div>
 
-                <div id="Pie" class="tabcontent">
+                <div id="Pie" class="tabcontent" style="display: block">
                 <h3>Pie</h3>
                 <p>Income as a Pie chart</p>
                 <div id="pieIncome"></div>
@@ -368,7 +401,7 @@
                 <button class="tablinks" onclick="openTabExpense(event, 'TreemapExpense')">Treemap</button>
                 </div>
 
-                <div id="PieExpense" class="tabcontent2">
+                <div id="PieExpense" class="tabcontent2" style="display: block">
                 <h3>Pie</h3>
                 <p>Expenses as a Pie chart</p>
                 <div id="pieExpenses"></div>

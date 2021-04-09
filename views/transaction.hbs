@@ -1,29 +1,6 @@
 {{>header}}
 
 <div class = "transaction">
-    <h1>Hello {{firstname}}, </h1>
-    <h2>Here are your transactions:</h2>
-    <form>
-        <table>
-            <tr>
-            <th>Transaction Number</th>
-            <th>Spending Category</th>
-            <th>Amount</th>
-            <th>Date</th>
-            </tr>
-            {{#each transactions}}
-            <tr>
-                <td>{{@index}}</td>
-                <td>{{type}}</td>
-                <td>{{amount}}</td>
-                <td>{{date}}</td>
-            </tr>
-            {{/each}}
-        </table>
-    </form>
-</div>
-
-<div class = "transaction">
     <div class ="row">
         <h2>Add Expenses</h2>
         <form action="/addtransaction" method="post">
@@ -114,22 +91,4 @@
             </div>
         </form>
     </div>
-</div>
-
-<div class = "transaction">
-    <h2>Here are Your Monthly Budgeting Goals:</h2>
-    <form>
-            <table>
-                <tr>
-                    <th>Months:</th>
-                    <th>Budgeting Amount($):</th>
-                </tr>
-                {{#each budgetAmount}}
-                <tr>
-                    <td>{{@index}}</td>
-                    <td>{{this}}</td>
-                </tr>
-                {{/each}}
-            </table>
-    </form>
 </div>

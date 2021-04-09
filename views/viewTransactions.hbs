@@ -1,0 +1,27 @@
+{{>header}}
+
+<div class="filter-transactions">
+    
+</div>
+
+<div class = "transaction">
+    <h3>Transactions:</h3>
+    <table>
+        <tr>
+            <th>Transaction Number</th>
+            <th>Spending Category</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </table>
+    <table class="display-transactions">
+        {{#each transactions}}
+            <tr>
+                <td>{{@index}}</td>
+                <td>{{type}}</td>
+                <td>{{amount}}</td>
+                <td>{{date}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

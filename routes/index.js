@@ -19,14 +19,16 @@ router.post('/loginmain', async function(req, res){
 
 router.post('/login', async function(req, res){
   var { username, password, register} = req.body;
-  if(register){
-    res.redirect('/register');
-  } else {
-    await db.login(username, password);
-  }
+  // if(register){
+  //   res.redirect('/register');
+  // } else {
+  //   await db.login(username, password);
+  // }
+  await db.login(username, password);
   // if user was found and logged in, then redirect them to the dashboard
+
   req.session.username = username;
-  if (username.toLowerCase() === "admin") {
+  if (username.toLowerCase() === "admin"){
     res.redirect('/admin');
   } else {
     res.redirect('/home');
@@ -43,12 +45,20 @@ router.post('/register', async function(req, res){
   var expenses = [];
   var appointmentTimes = [];
   if(register){
-    if(password === confirm){
-      await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
-      res.redirect('/');
-    } else{
-      console.log("Passwords do not match");
-      res.redirect('/register');
+    // check for valid password strength
+    if(password.length >= 6) {
+      // check if passwords match
+      if(password === confirm){
+        await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
+        res.redirect('/home');
+      } else{
+        console.log("Passwords do not match.");
+        throw new Error("Passwords do not match.");
+        // res.redirect('/register');
+      }
+    } else {
+      console.log("Minimum password length is 8 digits.");
+      throw new Error("Minimum password length is 8 digits.");
     }
   }
   res.redirect('/register');
@@ -67,39 +77,48 @@ router.use(ensureLoggedIn);
 
 router.get('/home', async function(req,res){
   var {username} = req.session;
+  var firstname =  await db.getFirstName(username);
   var income = await db.getIncome(username);
   var expenses = await db.getExpense(username);
-  var budgetingGoal = 0;
-  if(await db.getBudgetingGoal(username) > 0){
-    budgetingGoal = await db.getBudgetingGoal(username);
+  var budgetingGoal = await db.getBudgetingGoal(username);
+
+  // check if user has any appoints
+  let appointments = await db.getAppointments(username);
+  if (appointments.length <= 0) {
+    appointments = [];
   }
-  console.log(budgetingGoal);
+
+  //console.log(budgetingGoal);
   income = JSON.stringify(income);
   expenses = JSON.stringify(expenses);
   res.render('home', { 
     title: 'Home',
     username,
+    firstname,
     income,
     expenses,
-    budgetingGoal
+    budgetingGoal,
+    appointments,
   });
 });
 
 router.get('/transaction', async function(req, res){
-  var {username} = req.session;
-  firstname =  await db.getFirstName(username);
-  transactions = await db.getExpense(username);
-  budgetAmount = await db.getBudgetingGoal(username);
-  res.render('transaction', { title: 'Transactions', transactions,firstname, budgetAmount})
+  res.render('transaction')
 });
 
 router.post('/addtransaction', async function(req, res){
   var {SpendingCategory,amount, date} = req.body;
   var {username} = req.session;
-  console.log(username)
-  console.log(SpendingCategory, amount, date);
+  //console.log(username)
+  //console.log(SpendingCategory, amount, date);
   await db.addExpense(username,SpendingCategory, amount, date);
   res.redirect('/transaction');
+});
+
+router.get('/view-transactions', async function(req, res){
+  var {username} = req.session;
+  transactions = await db.getExpense(username);
+  res.render('viewTransactions', {title: 'Transactions', transactions});
 });
 
 router.post('/addincome', async function(req, res){
@@ -124,10 +143,8 @@ router.post('/getExpense', async function(req, res){
 });
 
 router.post('/setBudgetingGoal', async function(req, res){
-  var{budgetAmount} = req.body;
+  var {budgetAmount} = req.body;
   var {username} = req.session;
-  console.log(username);
-  console.log(budgetAmount);
   await db.setBudgetingGoal(username, budgetAmount);
   res.redirect('/transaction');
 });
@@ -172,7 +189,7 @@ router.post('/register-FM', async function(req,res){
   var email = req.body.FMname[1];
   var companyName = req.body.FMname[2];
   var contactNum = req.body.FMname[3];
-  var availableTime = ['8:00-8:55','9:00-9:55','10:00-10:55','11:00-11:55','12:00-12:55','13:00-13:55','14:00-14:55','15:00-15:55'];
+  var availableTime = ['8:00-8:55 AM','9:00-9:55 AM','10:00-10:55 AM','11:00-11:55 AM','12:00-12:55 PM','1:00-1:55 PM','2:00-2:55 PM','3:00-3:55 PM'];
   // register the financial manager
   await db.registerFM(fullname, email, companyName, contactNum, availableTime);
   res.redirect('/admin');
@@ -263,7 +280,9 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
     }
   });
 
-  if (userStatus === true) {
+  if (userStatus === false) {
+    throw new Error("You already have an appointment at the selected time. Please select another time.");
+  } else {
     if(bookingTimes !== "unavailable") {
       await db.bookTime(bookingTimes, email, username);
     } else {

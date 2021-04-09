@@ -7,15 +7,15 @@
 <div class="financial-list">
     {{#each financialManagers}}
         <div class="financial-info">
-            <label>Fullname</label>
+            <label>Name:</label>
             <p>{{this.fullname}}</p>
-            <label>Email</label>
+            <label>Email:</label>
             <p>{{this.email}}</p>
-            <label>Company Name</label>
+            <label>Company Name:</label>
             <p>{{this.companyName}}</p>
-            <label>Contact Number</label>
+            <label>Contact Number:</label>
             <p>{{this.contactNum}}</p>
-            <label>Available Times</label>
+            <label>Available Times:</label>
             <div class="available-times">
                 <form class="available-times" action="/services/financial-managers/book-time" method="post">
                     <label>Pick a time:</label>
@@ -27,9 +27,9 @@
                         {{/each}}
                     </select>
                     {{#if this.availableTime}}
-                        <button type="submit" name="bookTime" value={{this.email}}>Book Time</button>
+                        <button class="btn btn-primary" type="submit" name="bookTime" value={{this.email}}>Book Time</button>
                     {{else}}
-                        <button type="submit" name="no-book-time">No Available Times</button>
+                        <button class="btn btn-primary" type="submit" name="no-book-time">No Available Times</button>
                     {{/if}}
                 </form>
             </div>
