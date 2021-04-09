@@ -52,12 +52,10 @@ router.post('/register', async function(req, res){
         await db.register(username, password, email, firstname, lastname, income, expenses, appointmentTimes);
         res.redirect('/home');
       } else{
-        console.log("Passwords do not match.");
         throw new Error("Passwords do not match.");
         // res.redirect('/register');
       }
     } else {
-      console.log("Minimum password length is 8 digits.");
       throw new Error("Minimum password length is 8 digits.");
     }
   }
@@ -88,7 +86,6 @@ router.get('/home', async function(req,res){
     appointments = [];
   }
 
-  //console.log(budgetingGoal);
   income = JSON.stringify(income);
   expenses = JSON.stringify(expenses);
   res.render('home', { 
@@ -109,24 +106,42 @@ router.get('/transaction', async function(req, res){
 router.post('/addtransaction', async function(req, res){
   var {SpendingCategory,amount, date} = req.body;
   var {username} = req.session;
-  //console.log(username)
-  //console.log(SpendingCategory, amount, date);
-  await db.addExpense(username,SpendingCategory, amount, date);
+  await db.addExpense(username,SpendingCategory, '$'+amount, date);
   res.redirect('/transaction');
 });
 
 router.get('/view-transactions', async function(req, res){
+  let transactions_arr = [];
+  let income_arr = [];
+  let month = new Date().getMonth() + 1;
+  let year = new Date().getFullYear();
   var {username} = req.session;
-  transactions = await db.getExpense(username);
-  res.render('viewTransactions', {title: 'Transactions', transactions});
+  let transactions = await db.getExpense(username);
+  let income = await db.getIncome(username);
+
+  transactions.forEach(transaction => {
+    if (new Date(transaction.date).getFullYear() === year) {
+      if ((new Date(transaction.date).getMonth() + 1) === month) {
+        transactions_arr.push(transaction);
+      }
+    }
+  });
+
+  income.forEach(transaction => {
+    if (new Date(transaction.date).getFullYear() === year) {
+      if ((new Date(transaction.date).getMonth() + 1) === month) {
+        income_arr.push(transaction);
+      }
+    }
+  });
+
+  res.render('viewTransactions', {title: 'Transactions', transactions_arr: transactions_arr, income_arr: income_arr});
 });
 
 router.post('/addincome', async function(req, res){
   var {IncomeCategory,income, date} = req.body;
   var {username} = req.session;
-  console.log(username)
-  console.log(req.body);
-  await db.addIncome(username,IncomeCategory, income, date);
+  await db.addIncome(username,IncomeCategory, '$' + income, date);
   res.redirect('/transaction');
 });
 
@@ -151,7 +166,6 @@ router.post('/setBudgetingGoal', async function(req, res){
 
 router.post('/getBudgetingGoal', async function(req, res){
   var {username} = req.session;
-  console.log(req.body);
   await db.getBudgetingGoal(username);
   res.redirect('/transaction');
 });
@@ -159,15 +173,12 @@ router.post('/getBudgetingGoal', async function(req, res){
 router.post('/feedback', async function(req, res){
   var {username} = req.session;
   var {note} = req.body;
-  console.log(req.body);
   await db.feedback(username, note);
   res.redirect('/home');
 });
 
 router.post('/suggestBudgetingGoal', async function(req, res){
   var {username} = req.session;
-  //var {budgetAmount} = req.body;
-  console.log(req.body);
   await db.suggestBudgetingGoal(username);
   res.redirect('/services');
 });
@@ -275,7 +286,6 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
   available.forEach(user => {
     if(user.username === username) {
       // time slot already taken, can't book
-      console.log("you already have an appointment at the selected time");
       userStatus = false;
     }
   });
@@ -286,7 +296,7 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
     if(bookingTimes !== "unavailable") {
       await db.bookTime(bookingTimes, email, username);
     } else {
-      console.log("no times available for booking");
+      throw new Error("No times available for booking.");
     }
   }
   res.redirect('/services/financial-managers');

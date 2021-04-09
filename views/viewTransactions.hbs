@@ -1,27 +1,51 @@
 {{>header}}
 
 <div class="filter-transactions">
-    
+    <h1>This month's income and expenses:</h1>
 </div>
 
-<div class = "transaction">
-    <h3>Transactions:</h3>
-    <table>
-        <tr>
-            <th>Transaction Number</th>
-            <th>Spending Category</th>
-            <th>Amount</th>
-            <th>Date</th>
-        </tr>
-    </table>
-    <table class="display-transactions">
-        {{#each transactions}}
+<div class="transactions">
+    <div class = "income">
+        <h3>Income:</h3>
+        <table>
             <tr>
-                <td>{{@index}}</td>
-                <td>{{type}}</td>
-                <td>{{amount}}</td>
-                <td>{{date}}</td>
+                <th>Transaction Number</th>
+                <th>Income Category</th>
+                <th>Amount</th>
+                <th>Date</th>
             </tr>
-        {{/each}}
-    </table>
+        </table>
+        <table class="display-transactions">
+            {{#each income_arr}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{type}}</td>
+                    <td>{{amount}}</td>
+                    <td>{{date}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+
+    <div class = "expenses">
+        <h3>Expenses:</h3>
+        <table>
+            <tr>
+                <th>Transaction Number</th>
+                <th>Spending Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </table>
+        <table class="display-transactions">
+            {{#each transactions_arr}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{type}}</td>
+                    <td>{{amount}}</td>
+                    <td>{{date}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 </div>

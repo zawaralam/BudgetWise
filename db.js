@@ -62,7 +62,6 @@ async function login(username, password){
     if(!valid){
         throw new Error("Invalid password");
     }
-    console.log("Login successful");
 }
 
 async function getFirstName(username){
@@ -137,7 +136,6 @@ async function addIncome(username, type, amount, date){
 
 async function addExpense(username, type, amount, date){
     var conn = await connect();
-    console.log(username,type, amount,date)
     await conn.collection('users').updateOne(
         {username},
         {
@@ -274,7 +272,7 @@ async function suggestBudgetingGoal(username){
     await conn.collection('users').updateOne(
         {username},
         {
-            $push:{
+            $set:{
                 suggestedAmount: suggestedAmount,
             }
         }
@@ -290,7 +288,6 @@ async function getSuggestedBudgetingGoal(username){
 
 async function feedback(username, note){
     var conn = await connect();
-    console.log(username);
     await conn.collection('users').updateOne(
         {username},
         {
