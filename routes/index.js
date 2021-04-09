@@ -44,6 +44,9 @@ router.post('/register', async function(req, res){
   var income = [];
   var expenses = [];
   var appointmentTimes = [];
+
+
+
   if(register){
     // check for valid password strength
     if(password.length >= 6) {
@@ -200,7 +203,7 @@ router.post('/register-FM', async function(req,res){
   var email = req.body.FMname[1];
   var companyName = req.body.FMname[2];
   var contactNum = req.body.FMname[3];
-  var availableTime = ['8:00-8:55 AM','9:00-9:55 AM','10:00-10:55 AM','11:00-11:55 AM','12:00-12:55 PM','1:00-1:55 PM','2:00-2:55 PM','3:00-3:55 PM'];
+  var availableTime = ['8:00-8:55','9:00-9:55','10:00-10:55','11:00-11:55','12:00-12:55','13:00-13:55','14:00-14:55','15:00-15:55'];
   // register the financial manager
   await db.registerFM(fullname, email, companyName, contactNum, availableTime);
   res.redirect('/admin');
@@ -280,6 +283,9 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
   const {bookingTimes} = req.body;
   const email = req.body.bookTime;
   const {username} = req.session;
+
+  console.log(bookingTimes);
+
   // if user already has a booking time at the specified time, then don't book at all
   const available = await db.checkAvailableTime(bookingTimes);
   let userStatus = true;

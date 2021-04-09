@@ -221,6 +221,7 @@ async function bookTime(bookingTime, email, username) {
         {email: email},
         {$pull: {"availableTime": bookingTime}},
     );
+
     // need to add this time to the users database
     await conn.collection('users').updateOne(
         {username: username},
@@ -242,7 +243,7 @@ async function resetFinancialTimes() {
     var conn = await connect();
     await conn.collection('financialManagers').updateMany(
         {},
-        {$set: {availableTime: ['8:00-8:55 AM','9:00-9:55 AM','10:00-10:55 AM','11:00-11:55 AM','12:00-12:55 PM','1:00-1:55 PM','2:00-2:55 PM','3:00-3:55 PM']}}
+        {$set: {availableTime: ['8:00-8:55','9:00-9:55','10:00-10:55','11:00-11:55','12:00-12:55','13:00-13:55','14:00-14:55','15:00-15:55']}}
     );
 }
 
