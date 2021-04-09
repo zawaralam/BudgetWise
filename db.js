@@ -24,6 +24,7 @@ async function register(username, password, email, firstname, lastname, income, 
     var conn = await connect();
     var existingUser = await conn.collection('users').findOne({username});
     var role = "Client";
+    var budgetGoal = 0;
 
     if(existingUser != null && username.toLowerCase() === "admin") {
         throw new Error('Cannot create a new Admin user');
@@ -44,7 +45,7 @@ async function register(username, password, email, firstname, lastname, income, 
     if(role === "Admin"){
         await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role});
     }else{
-        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role, income, expenses, appointmentTimes});
+        await conn.collection('users').insertOne({username, passwordHash, email, firstname, lastname, role, income, expenses, budgetGoal, appointmentTimes});
     }
 }
 
@@ -181,7 +182,16 @@ async function modifyExpense(username,transactionNum, usertype, useramount, user
 
 async function setBudgetingGoal(username, budgetAmount){
     var conn = await connect();
+    var user = await conn.collection('users').findOne({username});
     console.log(username, budgetAmount)
+    await conn.collection('users').updateOne(
+        {username},
+        {
+            $pull:{
+                budgetAmount: user.budgetAmount[0],
+            }
+        }
+    );
     await conn.collection('users').updateOne(
         {username},
         {
@@ -189,7 +199,7 @@ async function setBudgetingGoal(username, budgetAmount){
                 budgetAmount: budgetAmount,
             }
         }
-    );     
+    );    
 }
 
 async function getBudgetingGoal(username){

@@ -69,13 +69,19 @@ router.get('/home', async function(req,res){
   var {username} = req.session;
   var income = await db.getIncome(username);
   var expenses = await db.getExpense(username);
+  var budgetingGoal = 0;
+  if(await db.getBudgetingGoal(username) > 0){
+    budgetingGoal = await db.getBudgetingGoal(username);
+  }
+  console.log(budgetingGoal);
   income = JSON.stringify(income);
   expenses = JSON.stringify(expenses);
   res.render('home', { 
     title: 'Home',
     username,
     income,
-    expenses
+    expenses,
+    budgetingGoal
   });
 });
 
