@@ -1,26 +1,3 @@
-<style>
-    body { background-color: #30303d; color: rgb(0, 0, 0); }
-
-    #pieIncome {
-        width: 100%;
-        height: 500px;
-    }
-
-    #pieExpenses {
-        width: 100%;
-        height: 500px;
-    }
-
-    #treeIncome {
-        width: 100%;
-        height: 500px;
-    }
-
-    #treeExpenses {
-        width: 100%;
-        height: 500px;
-    }
-</style>
 
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
@@ -353,27 +330,24 @@
         {{/if}}
     </div>
 
-    <div class="view-transactions">
+    <div class="col">
         <form action="/view-transactions" method="get">
             <label>To view your transactions, click on 'View Transactions'.</label>
             <button type="submit" value="View Transactions"/>View Transactions</button>
         </form>
     </div>
 
-    <div class="add-view-options">
-        <div class="add-data">
-            <form action="/transaction" method="get">
-                <label>To add income and expenses, click on 'Add Data'.</label>
-                <button type="submit" value="Add data"/>Add Data</button>
-            </form>
-        </div>
+    <div class="col">
+        <form action="/transaction" method="get">
+            <label>To add income and expenses, click on 'Add Data'.</label>
+            <button type="submit" value="Add data"/>Add Data</button>
+        </form>
     </div>
 
-    <div>
+    <div class = "row">
         <h3>Budget Progress</h3>
         <div id="budgetProgress"></div>
     </div>
-
     <div class="row">
         <div class="col-6">
             <h3>Income</h3>
@@ -414,7 +388,7 @@
             </div>
         </div>
 
-        <div class="col-6 mx-auto">
+        <div class="row">
             <h3>Suggested Budget Goal</h3>
                 <p style="colour:black;font-size:11px;">*Note that you must first book an appointment with a financial advisor to have suggested budget goals*</p> 
             <div class="suggestGoal">
@@ -425,7 +399,7 @@
         </div>
 
 
-        <div class="col-12 mx-auto">
+        <div class="row">
         <div style="right:2px; top: 800px">
             <h9>Comments/Feedback</h9>
             <div class="feedback">

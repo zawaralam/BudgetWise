@@ -22,7 +22,7 @@
             <input type ="date" name="date" placeholder="Transaction Date">
             </div>
             <div class="row-sm">
-            <input name="addtransaction" class="transactionbutton" value="Add" type="submit">
+            <button name="addtransaction" class="button" value="Add" type="submit">Add</button>
             </div>
         </form>
     </div>
@@ -41,7 +41,7 @@
             </p>
             <input  type ="float" name="income" placeholder="Amount Spent"><br>
             <input type ="date" name="date" placeholder="Transaction Date"><br>
-            <input name="addIncome" class="transactionbutton" value="Add" type="submit">
+            <button name="addIncome" class="button" value="Add" type="submit">Add</button>
         </form>
     </div>
 </div>
@@ -51,7 +51,7 @@
         <form action="/import" method="post" enctype="multipart/form-data">
             <label for="myFile">Choose a file (.csv):</label>
             <input type="file" accept=".xls,.xlsx,.csv" id="myFile" name="myFile"><br>
-            <input type="submit" class="transactionbutton">
+            <button type="submit" class="button">Submit</button>
         </form>
     </div>
 </div>
@@ -74,7 +74,7 @@
             <br>
             <input name="changeAmount" type ="number" placeholder="Amount Spent"><br>
             <input name="changeDate" type ="date" placeholder="Date"><br>
-            <input name="modifytransaction" value="Modify" type="submit" class="transactionbutton">
+            <button name="modifytransaction" value="Modify" type="submit" class="button">Modify</button>
         </form>
     </div>
 </div>
@@ -87,7 +87,7 @@
             <input name="budgetAmount" type ="float" placeholder="Budget Amount">
             </div>
             <div class="row-sm">
-            <input name="submit" value="Submit" type="submit" class="transactionbutton">
+            <button name="submit" value="Submit" type="submit" class="button">Submit</button>
             </div>
         </form>
     </div>
