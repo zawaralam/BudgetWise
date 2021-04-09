@@ -1,22 +1,241 @@
+<style>
+    body { background-color: #30303d; color: #fff; }
+
+    #pieIncome {
+        width: 100%;
+        height: 500px;
+    }
+
+    #pieExpenses {
+        width: 100%;
+        height: 500px;
+    }
+
+    #treeIncome {
+        width: 100%;
+        height: 500px;
+    }
+
+    #treeExpenses {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/dark.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script>
+    function greenTheme(target) {
+        if (target instanceof am4core.ColorSet) {
+            target.list = [
+                am4core.color("#6bff72"),
+                am4core.color("#79f29c"),
+                am4core.color("#60db83"),
+                am4core.color("#4fd173"),
+                am4core.color("#32a852"),
+                am4core.color("#60db83"),
+                am4core.color("#2ebf58"),
+                am4core.color("#1cad46"),
+                am4core.color("#0f9636"),
+                am4core.color("#3fcc35"),
+                am4core.color("#24ad1a"),
+                am4core.color("#148a0b"),
+                am4core.color("#085202"),
+                am4core.color("#0d4f08")
+            ];
+        }
+    }
+
+    function redTheme(target) {
+        if (target instanceof am4core.ColorSet) {
+            target.list = [
+                am4core.color("#ff8989"),
+                am4core.color("#f87070"),
+                am4core.color("#d96262"),
+                am4core.color("#ba5454"),
+                am4core.color("#9b4646"),
+                am4core.color("#7c3838"),
+                am4core.color("#F54444"),
+                am4core.color("#B83333"),
+                am4core.color("#992B2B"),
+                am4core.color("#7A2222"),
+                am4core.color("#5C1A1A"),
+                am4core.color("#E82929"),
+                am4core.color("#AE1F1F"),
+                am4core.color("#911A1A"),
+                am4core.color("#741515")
+            ];
+        }
+    }
+
+    // INCOME PIE CHART
+    am4core.ready(function() {
+        am4core.useTheme(greenTheme);
+        am4core.useTheme(am4themes_animated);
+
+        // Create chart instance
+        var chart = am4core.create("pieIncome", am4charts.PieChart);
+
+        let i = 0;
+        {{{income}}}.forEach(element =>{
+            chart.data[i] = {
+                "type": element.type,
+                "amount": element.amount
+            }
+            i++;
+        });
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "amount";
+        pieSeries.dataFields.category = "type";
+        pieSeries.slices.template.stroke = am4core.color("#fff");
+        pieSeries.slices.template.strokeWidth = 2;
+        pieSeries.slices.template.strokeOpacity = 1;
+        pieSeries.labels.template.fill = am4core.color("#fff");
+        pieSeries.slices.template.tooltipText = "{category}: ${value.formatNumber('#.##')}";
+
+        // This creates initial animation
+        pieSeries.hiddenState.properties.opacity = 1;
+        pieSeries.hiddenState.properties.endAngle = -90;
+        pieSeries.hiddenState.properties.startAngle = -90;
+
+        am4core.unuseTheme(greenTheme);
+    });
+
+    // INCOME TREEMAP
+    am4core.ready(function() {
+        am4core.useTheme(greenTheme);
+        am4core.useTheme(am4themes_animated);
+
+        // create chart
+        var chart = am4core.create("treeIncome", am4charts.TreeMap);
+        let i = 0;
+        {{{income}}}.forEach(element =>{
+            chart.data[i] = {
+                "type": element.type,
+                "amount": element.amount
+            }
+            i++;
+        });
+
+        /* Define data fields */
+        chart.dataFields.value = "amount";
+        chart.dataFields.name = "type";
+        chart.dataFields.color = "color";
+
+        chart.zoomable = false;
+
+        /* Configure top-level series */
+        var level1 = chart.seriesTemplates.create("0");
+        var level1_column = level1.columns.template;
+        level1_column.column.cornerRadius(10, 10, 10, 10);
+        level1_column.fillOpacity = 0.8;
+        level1_column.stroke = am4core.color("#fff");
+        level1_column.strokeWidth = 5;
+        level1_column.strokeOpacity = 1;
+
+        /* Add bullet labels */
+        var level1_bullet = level1.bullets.push(new am4charts.LabelBullet());
+        level1_bullet.locationY = 0.5;
+        level1_bullet.locationX = 0.5;
+        level1_bullet.label.text = "{name}";
+        level1_bullet.label.fill = am4core.color("#fff");
+
+        am4core.unuseTheme(greenTheme);
+    });
+
+    // EXPENSES PIE CHART
+    am4core.ready(function() {
+        am4core.useTheme(redTheme);
+        am4core.useTheme(am4themes_animated);
+
+        // Create chart instance
+        var chart = am4core.create("pieExpenses", am4charts.PieChart);
+
+        let i = 0;
+        {{{expenses}}}.forEach(element =>{
+            chart.data[i] = {
+                "type": element.type,
+                "amount": element.amount
+            }
+            i++;
+        });
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "amount";
+        pieSeries.dataFields.category = "type";
+        pieSeries.slices.template.stroke = am4core.color("#fff");
+        pieSeries.slices.template.strokeWidth = 2;
+        pieSeries.slices.template.strokeOpacity = 1;
+        pieSeries.labels.template.fill = am4core.color("#fff");
+        pieSeries.slices.template.tooltipText = "{category}: ${value.formatNumber('#.##')}";
+
+        // This creates initial animation
+        pieSeries.hiddenState.properties.opacity = 1;
+        pieSeries.hiddenState.properties.endAngle = -90;
+        pieSeries.hiddenState.properties.startAngle = -90;
+
+        am4core.unuseTheme(redTheme);
+    });
+
+    // EXPENSE TREEMAP
+    am4core.ready(function() {
+        am4core.useTheme(redTheme);
+        am4core.useTheme(am4themes_animated);
+
+        // create chart
+        var chart = am4core.create("treeExpenses", am4charts.TreeMap);
+        let i = 0;
+        {{{expenses}}}.forEach(element =>{
+            chart.data[i] = {
+                "type": element.type,
+                "amount": element.amount
+            }
+            i++;
+        });
+
+        /* Define data fields */
+        chart.dataFields.value = "amount";
+        chart.dataFields.name = "type";
+        chart.dataFields.color = "color";
+
+        chart.zoomable = false;
+
+        /* Configure top-level series */
+        var level1 = chart.seriesTemplates.create("0");
+        var level1_column = level1.columns.template;
+        level1_column.column.cornerRadius(10, 10, 10, 10);
+        level1_column.fillOpacity = 0.8;
+        level1_column.stroke = am4core.color("#fff");
+        level1_column.strokeWidth = 5;
+        level1_column.strokeOpacity = 1;
+
+        /* Add bullet labels */
+        var level1_bullet = level1.bullets.push(new am4charts.LabelBullet());
+        level1_bullet.locationY = 0.5;
+        level1_bullet.locationX = 0.5;
+        level1_bullet.label.text = "{name}";
+        level1_bullet.label.fill = am4core.color("#fff");
+
+        am4core.unuseTheme(redTheme);
+    });
+</script>
+
 <div>{{> header}}</div>
 
-<div class="transaction">
+<div class="home">
     <h1>Welcome to your Dashboard</h1>
 
     <div class="add-view-options">
         <div class="add-data">
             <form action="/transaction" method="get">
                 <button type="submit" value="Add data"/>Add Data</button>
-            </form>
-        </div>
-        <div class ="get-income">
-            <form action="/getIncome" method="post">
-                <button name="getIncome" type="submit" value="Get Income">Get Income</button>
-            </form>
-        </div>
-        <div class ="get-expenses">
-            <form action="/getExpense" method="post">
-                <button name="getExpense" type="submit" value="Get Expenses">Get Expenses</button>
             </form>
         </div>
     </div>
@@ -32,11 +251,13 @@
                 <div id="Pie" class="tabcontent">
                 <h3>Pie</h3>
                 <p>Income as a Pie chart</p>
+                <div id="pieIncome"></div>
                 </div>
 
                 <div id="Treemap" class="tabcontent">
                 <h3>Treemap</h3>
                 <p>Income as a Treemap</p>
+                <div id="treeIncome"></div>
             </div>
         </div>
         <div class="col-6">
@@ -49,11 +270,13 @@
                 <div id="PieExpense" class="tabcontent2">
                 <h3>Pie</h3>
                 <p>Expenses as a Pie chart</p>
+                <div id="pieExpenses"></div>
                 </div>
 
                 <div id="TreemapExpense" class="tabcontent2">
                 <h3>Treemap</h3>
                 <p>Expenses as a Treemap</p>
+                <div id="treeExpenses"></div>
             </div>
         </div>
 
@@ -69,7 +292,7 @@
 
 
         <div class="col-12 mx-auto">
-        <div style="position: fixed; right:2px; top: 800px">
+        <div style="right:2px; top: 800px">
             <h9>Comments/Feedback</h9>
             <div class="feedback">
                 <form action="/feedback" method="post">

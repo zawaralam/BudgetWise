@@ -15,6 +15,15 @@ const { Db } = require('mongodb');
 
 var app = express();
 
+// used to reset mongodb available times
+const schedule = require('node-schedule');
+
+const job = schedule.scheduleJob("0 0 * * *", async() => {
+  // reset the available times of financial managers and appointment times
+  await db.resetFinancialTimes();
+  await db.resetAppointments();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

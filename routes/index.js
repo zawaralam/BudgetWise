@@ -4,6 +4,7 @@ var db = require("../db");
 const CSVtoJSON = require("csvtojson");
 const multer = require('multer');
 const path = require('path');
+let updated_financial = false;
 
 router.get('/', async function(req, res){
   res.render('main', { title: 'Main'})
@@ -66,10 +67,15 @@ router.use(ensureLoggedIn);
 
 router.get('/home', async function(req,res){
   var {username} = req.session;
-  // show the users booked times
+  var income = await db.getIncome(username);
+  var expenses = await db.getExpense(username);
+  income = JSON.stringify(income);
+  expenses = JSON.stringify(expenses);
   res.render('home', { 
-  username,
-  //transactions : await db.getTransaction(username),
+    title: 'Home',
+    username,
+    income,
+    expenses
   });
 });
 
@@ -101,14 +107,12 @@ router.post('/addincome', async function(req, res){
 
 router.post('/getIncome', async function(req, res){
   var {username} = req.session;
-  console.log(req.body);
   await db.getIncome(username);
   res.redirect('/home');
 });
 
 router.post('/getExpense', async function(req, res){
   var {username} = req.session;
-  console.log(req.body);
   await db.getExpense(username);
   res.redirect('/home');
 });
@@ -148,10 +152,7 @@ router.post('/suggestBudgetingGoal', async function(req, res){
 router.post('/modify', async function(req, res){
   var {transactionNum,ChangedSpendingCategory, changeAmount, changeDate} = req.body;
   var {username} = req.session;
-
-  console.log(username)
-  console.log(transactionNum, ChangedSpendingCategory, changeAmount,changeDate);
-  //await db.modifyExpense(username,transactionNum, ChangedSpendingCategory, ChangedAmount, changeDate);
+  await db.modifyExpense(username,transactionNum, ChangedSpendingCategory, changeAmount, changeDate);
   res.redirect('/transaction');
 });
 
@@ -220,8 +221,6 @@ router.post('/services', async function(req,res){
 
 // SERVICES/
 router.get('/services/financial-managers', async function(req,res){
-  // if the time is 12am, then reset the entire booking times for all financial managers
-
   // else just read from the db
   let financialManagers = await db.getFinancialManagers();
   res.render('financialManagers', {financialManagers});
@@ -248,13 +247,22 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
   const email = req.body.bookTime;
   const {username} = req.session;
   // if user already has a booking time at the specified time, then don't book at all
-  
-  // else
-  if(bookingTimes !== "unavailable") {
-    await db.bookTime(bookingTimes, email);
-  } else {
-    // do something else here
-    console.log("no times available for booking");
+  const available = await db.checkAvailableTime(bookingTimes);
+  let userStatus = true;
+  available.forEach(user => {
+    if(user.username === username) {
+      // time slot already taken, can't book
+      console.log("you already have an appointment at the selected time");
+      userStatus = false;
+    }
+  });
+
+  if (userStatus === true) {
+    if(bookingTimes !== "unavailable") {
+      await db.bookTime(bookingTimes, email, username);
+    } else {
+      console.log("no times available for booking");
+    }
   }
   res.redirect('/services/financial-managers');
 });
