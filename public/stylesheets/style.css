@@ -3,25 +3,22 @@
   font-family: sans-serif;
   width: 100%;
 }
+
+img {
+  padding: 5px;
+  width: 400px;
+}
+
 body{
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  align-items: center; */
+  align-items: center;
   text-align: center;
-  /*background-color: #30303d;
+  background-color: #30303d;
   background-image: url("background.jpg");
-  background-repeat:round; */
+  background-repeat:round;
   margin:0;
   padding: 1%;
-}
-
-li {
-  list-style: none;
-}
-
-form { 
-  display: inline-block;
-  width: 25%;
 }
 
 h1{
@@ -31,127 +28,81 @@ h1{
   font-family: fantasy;
   margin-top: 10pt;
 }
-
-.register-company label {
-  text-align: left;
-}
-
-button {
-  margin-top: 10px;
-}
-
-label {
+h2{
+  margin-top: 10pt;
+  color: rgb(0, 0, 0);
   font-weight: bold;
-}
-
-.horiontal-row {
-  margin: auto;
-}
-
-
-/* h2{
-    margin-top: 10pt;
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    text-transform: uppercase;
-    text-decoration-line: underline;
-    text-decoration-line: overline;
-  
-} */
-
-/* h3{
-  text-align: left;
+  text-transform: uppercase;
   text-decoration-line: underline;
   text-decoration-line: overline;
 
-} */
+} 
+h3{
+color: black;
+text-decoration:underline;
+padding: 10pt;
+}
 
-/* .row{
-  margin-bottom: 30PT;
-} */
 
-/* label{
+form { 
+  display: inline-block;
+  width: 25%;
+}
+
+label{
   color:rgb(0, 0, 0);
-} */
+}
 
-/* table {
+table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 10pt;
-} */
+} 
 
-/* th, td {
+th, td {
   text-align: left;
   padding: 8px;
-} */
+}
 
-/* tr:nth-child(even){background-color: hsl(175, 100%, 79%)}
+tr:nth-child(even){background-color: hsl(175, 100%, 79%)}
 tr:nth-child(odd){background-color: #00a7d1} */
 
-/* th {
+th {
   background-color: #4CAF50;
   color: white;
-} */
+}
 
-/* tr{
+tr{
   text-align: left;
   color: rgb(0, 0, 0);
   font-size: 14PT;
-} */
+}
 
-/* select {
+select {
   width : max-content;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-} */
+}
 
-/* input{
+input{
   border: 0;
   outline: 0;
   background-color: #eee;
   padding: 10px;
   width: 300px;
   box-sizing: border-box;
-}  */
+} 
 
-/* .navbar{
-  background: rgb(201, 255, 250);
-  background-repeat:repeat-y;
-  padding-left:1000pt;
-  padding-right:50pt;
-  margin-bottom: 10pt;
-} */
-
-/* .navbar-header{
-  color: rgb(255, 255, 255);
-} */
-
-/* .nav-item {
-  float: left;
-  color: #f2f2f2;
-  display: inline;
-  padding: 4pt;
-} */
-
-/* .nav-item:hover {
-  color: rgb(255, 151, 151);
-} */
-
-/* .nav-item.active {
-  background-color: #4CAF50;
-  color: white;
-} */
-
-/* input[type = "submit"]{
+input[type = "submit"]{
   background-color: black;
   color: rgb(255, 255, 255);
   width: 10rem;
   cursor: pointer;
   margin-top: 30px;
-} */
+}
 
-/* button{
+button{
   background-color: black;
   color: white;
   border: 0;
@@ -160,9 +111,9 @@ tr:nth-child(odd){background-color: #00a7d1} */
   width: 148px;
   cursor: pointer;
   margin-top: 30px;
-} */
+}
 
-/* .tab button {
+.tab button {
   background-color: rgb(0, 0, 0);
   float: left;
   border: none;
@@ -171,9 +122,9 @@ tr:nth-child(odd){background-color: #00a7d1} */
   padding: 14px 16px;
   transition: 0.5s;
   font-size: 17px;
-}  */
+}
 
-/* .tab button:hover {
+.tab button:hover {
   background-color: rgb(255, 255, 255);
 }
 
@@ -193,9 +144,9 @@ tr:nth-child(odd){background-color: #00a7d1} */
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
-}  */
+}
 
-/* .transaction{
+.transaction{
   bottom: 0;
   width: 1000pt;
   border: 3px solid #ffffff;
@@ -203,9 +154,9 @@ tr:nth-child(odd){background-color: #00a7d1} */
   padding: 10pt;
   margin:10pt;
   text-align: center;
-} */
+} 
 
-/* .transactionbutton{
+.transactionbutton{
   display:inline-block;
   padding:0.35em 1.2em;
   border:0.1em solid #FFFFFF;
@@ -218,14 +169,12 @@ tr:nth-child(odd){background-color: #00a7d1} */
   color:#FFFFFF;
   text-align:center;
   transition: all 0.2s;
-} */
-
-/* .transactionbutton:hover{
+} 
+.transactionbutton:hover{
   color:#000000;
   background-color:#FFFFFF;
-} */
+} 
 
-/* img {
-  padding: 5px;
-  width: 400px;
-} */
+.register-company label {
+  text-align: left;
+}
