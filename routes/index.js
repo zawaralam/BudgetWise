@@ -82,10 +82,12 @@ router.get('/home', async function(req,res){
   var income = await db.getIncome(username);
   var expenses = await db.getExpense(username);
   var budgetGoal = await db.getBudgetingGoal(username);
+  let time = new Date().getHours();
+  let msge = "";
 
   // check if user has any appoints
   let appointments = await db.getAppointments(username);
-  if (appointments.length <= 0) {
+  if (appointments.length <= 0 || time > 17) {
     appointments = [];
   }
 
@@ -260,6 +262,12 @@ router.post('/services', async function(req,res){
 router.get('/services/financial-managers', async function(req,res){
   // else just read from the db
   let financialManagers = await db.getFinancialManagers();
+  let time = new Date().getHours();
+  if (time > 17) {
+    financialManagers.forEach(manager => {
+      manager.availableTime = [];
+    });
+  }
   res.render('financialManagers', {financialManagers});
 });
 
