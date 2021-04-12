@@ -89,6 +89,19 @@ router.get('/home', async function(req,res){
   let appointments = await db.getAppointments(username);
   if (appointments.length <= 0 || time > 17) {
     appointments = [];
+  } else {
+    // display only the appointments that haven't been attended yet
+    let newAppointments = [];
+    appointments.forEach(appointment => {
+      if (appointment.bookingTime.split(":",1) >= time) {
+        newAppointments.push({
+          bookingTime: appointment.bookingTime,
+          email: appointment.email,
+          financialUsername: appointment.financialUsername
+        });
+      }
+    });
+    appointments = newAppointments;
   }
 
   income = JSON.stringify(income);
@@ -267,6 +280,17 @@ router.get('/services/financial-managers', async function(req,res){
     financialManagers.forEach(manager => {
       manager.availableTime = [];
     });
+  } else {
+    // only display the times that are present or future
+    financialManagers.forEach(manager => {
+      let newAvailableTimes = [];
+      manager.availableTime.forEach(availTime => {
+        if(availTime.split(":",1) >= time) {
+          newAvailableTimes.push(availTime);
+        }
+      }, manager.availableTime = newAvailableTimes
+      );
+    });
   }
   res.render('financialManagers', {financialManagers});
 });
@@ -291,8 +315,6 @@ router.post('/services/financial-managers/book-time', async function(req,res) {
   const {bookingTimes} = req.body;
   const email = req.body.bookTime;
   const {username} = req.session;
-
-  console.log(bookingTimes);
 
   // if user already has a booking time at the specified time, then don't book at all
   const available = await db.checkAvailableTime(bookingTimes);
